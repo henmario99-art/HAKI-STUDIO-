@@ -12,6 +12,47 @@
     await load(base+file);
   }
   
+
+  // Mobile-friendly print zones: visible, centered and immediately editable.
+  HAKI.addPrintZone=()=>{
+    const zones=HAKI.canvas.getObjects().filter(o=>o.hakiKind==='printzone');
+    const active=HAKI.active();
+    let cx=HAKI.canvas.getWidth()/2, cy=HAKI.canvas.getHeight()/2;
+    let w=360, h=280;
+
+    if(active && active.hakiKind!=='printzone'){
+      const p=active.getCenterPoint();
+      cx=p.x; cy=p.y;
+      w=Math.max(220,Math.min(420,active.getScaledWidth()*.48));
+      h=Math.max(180,Math.min(340,active.getScaledHeight()*.38));
+    }
+
+    const z=HAKI.addMeta(new fabric.Rect({
+      left:cx,top:cy,width:w,height:h,
+      originX:'center',originY:'center',
+      fill:'rgba(0,229,255,.20)',
+      stroke:'#00f0ff',
+      strokeWidth:8,
+      strokeDashArray:[22,12],
+      strokeUniform:true,
+      objectCaching:false,
+      transparentCorners:false,
+      cornerColor:'#ffffff',
+      cornerStrokeColor:'#00f0ff',
+      cornerStyle:'circle',
+      cornerSize:18,
+      borderColor:'#00f0ff',
+      borderScaleFactor:3
+    }),'printzone','Zona '+(zones.length+1));
+
+    HAKI.canvas.add(z);
+    HAKI.canvas.setActiveObject(z);
+    HAKI.snapshot();HAKI.refresh();
+    const panel=document.getElementById('sidepanel');
+    if(panel)panel.classList.remove('open');
+    HAKI.toast('Zona creada · muévela y ajusta su tamaño');
+  };
+
   // HAKI Studio mobile-safe warp: preserve RGB/alpha and never inherit destructive blend modes.
   HAKI.applyWarp=()=>{
     const o=HAKI.active();
