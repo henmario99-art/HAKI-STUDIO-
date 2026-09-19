@@ -134,6 +134,17 @@ function zoneRect(o,a,rx,ry,rw,rh,name,region){
   z.hakiAI=true;z.hakiRegion=region;return z;
 }
 
+function silhouettePath(o,a){
+  const pts=a.contour.map(([x,y])=>srcToCanvas(o,x*a.scaleX,y*a.scaleY));
+  if(pts.length<6)return null;
+  const path='M '+pts.map((p,i)=>(i?'L ':'')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ')+' Z';
+  const z=H.addMeta(new fabric.Path(path,{
+    fill:'rgba(0,240,255,.025)',stroke:'#00eaff',strokeWidth:3,strokeDashArray:[10,8],
+    strokeUniform:true,objectCaching:false,selectable:false,evented:false,excludeFromExport:true
+  }),'printzone','Silueta IA');
+  z.hakiAI=true;z.hakiRegion='silhouette';z.hakiGuide=true;return z;
+}
+
 H.analyzeMockupAI=async()=>{
   const o=mockup(); if(!o){H.toast('Primero añade un mockup');return null}
   H.status('Analizando mockup…');
@@ -158,6 +169,7 @@ H.createAIZones=()=>{
   const o=mockup(),a=H.aiAnalysis;if(!o||!a){H.toast('Analiza el mockup primero');return}
   H.canvas.getObjects().filter(x=>x.hakiAI).forEach(x=>H.canvas.remove(x));
   const zs=[];
+  const sil=silhouettePath(o,a); if(sil)zs.push(sil);
   if(a.type==='pants'||a.type==='short'){
     zs.push(zoneRect(o,a,.34,.48,.27,.72,'Pierna izquierda IA','leg-left'));
     zs.push(zoneRect(o,a,.66,.48,.27,.72,'Pierna derecha IA','leg-right'));
@@ -178,7 +190,7 @@ H.createAIZones=()=>{
 };
 
 function nearestZone(obj){
-  const zones=H.canvas.getObjects().filter(z=>z.hakiAI&&z.hakiKind==='printzone');
+  const zones=H.canvas.getObjects().filter(z=>z.hakiAI&&z.hakiKind==='printzone'&&z.hakiRegion!=='silhouette');
   if(!zones.length)return null;
   const p=obj.getCenterPoint();
   return zones.reduce((best,z)=>{
@@ -210,6 +222,25 @@ H.autoFitAI=()=>{
   set('warpBLX',vals.blx);set('warpBLY',vals.bly);set('warpBRX',vals.brx);set('warpBRY',vals.bry);
   H.applyWarp();
   H.toast('Diseño adaptado a '+H.objectName(z));
+};
+
+
+const baseApplyMask=H.applyMask;
+H.applyMask=id=>{
+  const obj=H.active();
+  if(!obj||obj.hakiKind==='printzone')return;
+  obj.hakiMaskId=id||'';
+  if(!id){obj.clipPath=null;H.snapshot();H.refresh();return}
+  const z=H.canvas.getObjects().find(x=>x.hakiId===id);
+  if(!z)return;
+  if(z.type==='path'){
+    z.clone(cp=>{
+      cp.set({absolutePositioned:true,selectable:false,evented:false,fill:'#000',stroke:null,opacity:1,excludeFromExport:true});
+      obj.clipPath=cp;H.snapshot();H.refresh();H.toast('Máscara de silueta aplicada');
+    });
+    return;
+  }
+  baseApplyMask(id);
 };
 
 H.installAIUI=()=>{
