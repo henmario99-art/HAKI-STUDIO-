@@ -11,7 +11,7 @@
   for(const file of ['core.js','editor.js','warp.js','storage.js','ui.js']){
     await load(base+file);
   }
-  await load('./ai.js?v=7');
+  await load('./ai.js?v=9');
   
 
   // Mobile-friendly print zones: always anchor to the visible mockup/design.
@@ -126,6 +126,7 @@
 
     const W=Math.max(32,Math.round(o.getScaledWidth()));
     const HH=Math.max(32,Math.round(o.getScaledHeight()));
+    const aiProfile=HAKI.aiWarpProfile?{...HAKI.aiWarpProfile}:null;
     const q=[
       [+HAKI.$('#warpTLX').value,+HAKI.$('#warpTLY').value],
       [W+(+HAKI.$('#warpTRX').value),+HAKI.$('#warpTRY').value],
@@ -156,7 +157,7 @@
       let px=t[0]*(1-v)+b[0]*v, py=t[1]*(1-v)+b[1]*v;
 
       // AI mesh profile: adds interior curvature, not only corner perspective.
-      const p=HAKI.aiWarpProfile;
+      const p=aiProfile;
       if(p){
         const strength=Math.max(0,Math.min(1,p.strength||0));
         const relief=Math.max(0,Math.min(1,p.relief||0));
@@ -166,22 +167,37 @@
         const vertical=Math.sin(Math.PI*v);
 
         if(['chest','chest-left','chest-right'].includes(p.region)){
-          // Convex torso/chest: middle bows outward and slightly upward.
-          px += side*vertical*W*.14*power;
-          py -= dome*HH*.12*power;
-          if(p.region==='chest-left') px -= dome*W*.07*power;
-          if(p.region==='chest-right') px += dome*W*.07*power;
+          // Strong cylindrical chest projection.
+          const edge=Math.abs(side);
+          const barrel=(1-edge*edge);
+          const wave=Math.sin(Math.PI*u);
+          const chestPower=Math.min(1.35,power*1.15);
+
+          // Compress the outside edges and expand the central part.
+          px += side*W*.19*barrel*vertical*chestPower;
+          // Curve horizontal artwork lines over the chest volume.
+          py -= wave*HH*.18*(0.35+0.65*vertical)*chestPower;
+
+          // Local left/right pectoral bias.
+          if(p.region==='chest-left'){
+            px -= dome*W*.115*chestPower;
+            py += side*HH*.035*chestPower;
+          }
+          if(p.region==='chest-right'){
+            px += dome*W*.115*chestPower;
+            py -= side*HH*.035*chestPower;
+          }
         }else if(p.region==='sleeve-left'){
           // Sleeve wraps away from the torso.
-          px -= (v*.75+dome*.35)*W*.19*power;
+          px -= (v*.80+dome*.55)*W*.28*power;
           py += side*HH*.045*power;
         }else if(p.region==='sleeve-right'){
-          px += (v*.75+dome*.35)*W*.19*power;
+          px += (v*.80+dome*.55)*W*.28*power;
           py -= side*HH*.045*power;
         }else if(p.region==='full'){
           // Full front/back: subtle torso barrel curve.
-          px += side*vertical*W*.10*power;
-          py -= dome*HH*.07*power;
+          px += side*vertical*W*.16*power;
+          py -= dome*HH*.12*power;
         }else if((p.region||'').startsWith('leg-')){
           const dir=p.region==='leg-left'?-1:1;
           px += dir*dome*W*.055*power;
@@ -240,8 +256,15 @@
       HAKI.canvas.remove(o);
       HAKI.canvas.insertAt(img,Math.max(0,idx),false);
       HAKI.canvas.setActiveObject(img);
+      if(aiProfile){
+        HAKI.canvas.getObjects().filter(x=>x.hakiAI&&x.hakiKind==='printzone').forEach(x=>{
+          x.visible=false;
+          x.selectable=false;
+          x.evented=false;
+        });
+      }
       HAKI.snapshot();HAKI.refresh();
-      HAKI.toast('Perspectiva aplicada · color conservado');
+      HAKI.toast(aiProfile?'Deformación IA aplicada · guías ocultas':'Perspectiva aplicada · color conservado');
     });
   };
 
@@ -276,7 +299,7 @@
     back.onclick=()=>panel.classList.remove('open');
     panel.prepend(back);
   }
-  document.documentElement.dataset.hakiVersion='0.3.4-strongwarp';
+  document.documentElement.dataset.hakiVersion='0.3.5-cylinderwarp';
 })().catch(err=>{
   console.error(err);
   const b=document.getElementById('boot');
