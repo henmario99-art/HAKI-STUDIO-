@@ -11,6 +11,7 @@
   for(const file of ['core.js','editor.js','warp.js','storage.js','ui.js']){
     await load(base+file);
   }
+  await load('./ai.js?v=1');
   
 
   // Mobile-friendly print zones: always anchor to the visible mockup/design.
@@ -158,6 +159,7 @@
   };
 
   window.HAKI.init();
+  if(window.HAKI.installAIUI)window.HAKI.installAIUI();
   const panel=document.getElementById('sidepanel');
   if(panel && !document.getElementById('mobileBack')){
     const back=document.createElement('button');
@@ -168,7 +170,7 @@
     back.onclick=()=>panel.classList.remove('open');
     panel.prepend(back);
   }
-  document.documentElement.dataset.hakiVersion='0.2.2';
+  document.documentElement.dataset.hakiVersion='0.3.0-ai';
 })().catch(err=>{
   console.error(err);
   const b=document.getElementById('boot');
