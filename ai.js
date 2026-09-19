@@ -239,14 +239,14 @@ H.autoFitAI=()=>{
   const rawStrength=+(document.getElementById('aiWarpStrength')?.value||55)/100;
   const relief=H.aiAnalysis?.depthStrength ?? H.aiAnalysis?.relief ?? .35;
   // Keep a useful minimum so Auto adaptar is visibly different even at modest slider values.
-  const strength=clamp(.28+rawStrength*.72,0,1);
+  const strength=clamp(.60+rawStrength*.40,0,1);
   const W=d.getScaledWidth(),HH=d.getScaledHeight();
 
   let vals={
-    tlx: W*.055*strength, tly: HH*.025*strength,
-    trx:-W*.055*strength, try: HH*.025*strength,
-    blx:-W*.018*strength, bly:-HH*.006*strength,
-    brx: W*.018*strength, bry:-HH*.006*strength
+    tlx: W*.13*strength, tly: HH*.045*strength,
+    trx:-W*.13*strength, try: HH*.045*strength,
+    blx:-W*.05*strength, bly:-HH*.015*strength,
+    brx: W*.05*strength, bry:-HH*.015*strength
   };
 
   if(z.hakiRegion==='chest-left')vals={
@@ -274,10 +274,10 @@ H.autoFitAI=()=>{
     brx:-W*.075*strength,bry:HH*.025*strength
   };
   if(z.hakiRegion==='full')vals={
-    tlx: W*.065*strength,tly:HH*.018*strength,
-    trx:-W*.065*strength,try:HH*.018*strength,
-    blx:-W*.025*strength,bly:0,
-    brx: W*.025*strength,bry:0
+    tlx: W*.12*strength,tly:HH*.035*strength,
+    trx:-W*.12*strength,try:HH*.035*strength,
+    blx:-W*.05*strength,bly:0,
+    brx: W*.05*strength,bry:0
   };
   if((z.hakiRegion||'').startsWith('leg-'))vals={
     tlx: W*.055*strength,tly:0,
@@ -300,7 +300,7 @@ H.autoFitAI=()=>{
 
   const panel=document.getElementById('sidepanel');
   if(panel)panel.classList.remove('open');
-  H.toast('Auto adaptación aplicada · usa Deshacer para revertir');
+  H.toast('Auto adaptación fuerte aplicada · haz zoom para revisarla');
 };
 
 
