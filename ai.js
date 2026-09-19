@@ -209,6 +209,9 @@ H.autoFitAI=()=>{
   if(!z)z=nearestZone(d);
   if(!z){H.toast('Primero crea las zonas IA');return}
 
+  // Capture the exact pre-AI state so one Undo can return here.
+  H.snapshot();
+
   // Do not create intermediate history states: one Undo returns to the pre-AI state.
   const zw=z.getScaledWidth(),zh=z.getScaledHeight();
   const fit=Math.min(zw/d.width,zh/d.height)*.90;
