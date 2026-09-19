@@ -11,7 +11,7 @@
   for(const file of ['core.js','editor.js','warp.js','storage.js','ui.js']){
     await load(base+file);
   }
-  await load('./ai.js?v=4');
+  await load('./ai.js?v=7');
   
 
   // Mobile-friendly print zones: always anchor to the visible mockup/design.
@@ -167,21 +167,21 @@
 
         if(['chest','chest-left','chest-right'].includes(p.region)){
           // Convex torso/chest: middle bows outward and slightly upward.
-          px += side*vertical*W*.075*power;
-          py -= dome*HH*.055*power;
-          if(p.region==='chest-left') px -= dome*W*.035*power;
-          if(p.region==='chest-right') px += dome*W*.035*power;
+          px += side*vertical*W*.14*power;
+          py -= dome*HH*.12*power;
+          if(p.region==='chest-left') px -= dome*W*.07*power;
+          if(p.region==='chest-right') px += dome*W*.07*power;
         }else if(p.region==='sleeve-left'){
           // Sleeve wraps away from the torso.
-          px -= (v*.75+dome*.35)*W*.115*power;
+          px -= (v*.75+dome*.35)*W*.19*power;
           py += side*HH*.045*power;
         }else if(p.region==='sleeve-right'){
-          px += (v*.75+dome*.35)*W*.115*power;
+          px += (v*.75+dome*.35)*W*.19*power;
           py -= side*HH*.045*power;
         }else if(p.region==='full'){
           // Full front/back: subtle torso barrel curve.
-          px += side*vertical*W*.055*power;
-          py -= dome*HH*.032*power;
+          px += side*vertical*W*.10*power;
+          py -= dome*HH*.07*power;
         }else if((p.region||'').startsWith('leg-')){
           const dir=p.region==='leg-left'?-1:1;
           px += dir*dome*W*.055*power;
@@ -193,9 +193,11 @@
       }
       return[px,py];
     };
+    const pad=Math.ceil(Math.max(W,HH)*0.22);
+    q.forEach(p=>{p[0]+=pad;p[1]+=pad});
     const off=document.createElement('canvas');
-    off.width=Math.max(1,Math.ceil(maxX-minX));
-    off.height=Math.max(1,Math.ceil(maxY-minY));
+    off.width=Math.max(1,Math.ceil(maxX-minX)+pad*2);
+    off.height=Math.max(1,Math.ceil(maxY-minY)+pad*2);
     const ctx=off.getContext('2d',{alpha:true});
     ctx.clearRect(0,0,off.width,off.height);
     ctx.imageSmoothingEnabled=true;
@@ -226,7 +228,7 @@
     fabric.Image.fromURL(data,img=>{
       HAKI.addMeta(img,o.hakiKind||'design',HAKI.objectName(o)+' warp');
       img.set({
-        left:o.left+minX,top:o.top+minY,angle:o.angle,
+        left:o.left+minX-pad,top:o.top+minY-pad,angle:o.angle,
         originX:o.originX,originY:o.originY,opacity:o.opacity,
         globalCompositeOperation:'source-over'
       });
@@ -274,7 +276,7 @@
     back.onclick=()=>panel.classList.remove('open');
     panel.prepend(back);
   }
-  document.documentElement.dataset.hakiVersion='0.3.3-mobilezoom';
+  document.documentElement.dataset.hakiVersion='0.3.4-strongwarp';
 })().catch(err=>{
   console.error(err);
   const b=document.getElementById('boot');
