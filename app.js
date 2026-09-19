@@ -106,7 +106,45 @@
     const bilerp=(u,v)=>{
       const t=[q[0][0]*(1-u)+q[1][0]*u,q[0][1]*(1-u)+q[1][1]*u];
       const b=[q[3][0]*(1-u)+q[2][0]*u,q[3][1]*(1-u)+q[2][1]*u];
-      return[t[0]*(1-v)+b[0]*v,t[1]*(1-v)+b[1]*v];
+      let px=t[0]*(1-v)+b[0]*v, py=t[1]*(1-v)+b[1]*v;
+
+      // AI mesh profile: adds interior curvature, not only corner perspective.
+      const p=HAKI.aiWarpProfile;
+      if(p){
+        const strength=Math.max(0,Math.min(1,p.strength||0));
+        const relief=Math.max(0,Math.min(1,p.relief||0));
+        const power=strength*(0.65+relief*0.75);
+        const dome=Math.sin(Math.PI*u)*Math.sin(Math.PI*v);
+        const side=(u-.5)*2;
+        const vertical=Math.sin(Math.PI*v);
+
+        if(['chest','chest-left','chest-right'].includes(p.region)){
+          // Convex torso/chest: middle bows outward and slightly upward.
+          px += side*vertical*W*.075*power;
+          py -= dome*HH*.055*power;
+          if(p.region==='chest-left') px -= dome*W*.035*power;
+          if(p.region==='chest-right') px += dome*W*.035*power;
+        }else if(p.region==='sleeve-left'){
+          // Sleeve wraps away from the torso.
+          px -= (v*.75+dome*.35)*W*.115*power;
+          py += side*HH*.045*power;
+        }else if(p.region==='sleeve-right'){
+          px += (v*.75+dome*.35)*W*.115*power;
+          py -= side*HH*.045*power;
+        }else if(p.region==='full'){
+          // Full front/back: subtle torso barrel curve.
+          px += side*vertical*W*.055*power;
+          py -= dome*HH*.032*power;
+        }else if((p.region||'').startsWith('leg-')){
+          const dir=p.region==='leg-left'?-1:1;
+          px += dir*dome*W*.055*power;
+          py += side*HH*.02*power;
+        }else{
+          px += side*vertical*W*.04*power;
+          py -= dome*HH*.025*power;
+        }
+      }
+      return[px,py];
     };
     const off=document.createElement('canvas');
     off.width=Math.max(1,Math.ceil(maxX-minX));
@@ -128,7 +166,7 @@
       ctx.restore();
     };
 
-    const N=20;
+    const N=28;
     for(let iy=0;iy<N;iy++)for(let ix=0;ix<N;ix++){
       const u0=ix/N,u1=(ix+1)/N,v0=iy/N,v1=(iy+1)/N;
       const s00=[u0*sw,v0*sh],s10=[u1*sw,v0*sh],s11=[u1*sw,v1*sh],s01=[u0*sw,v1*sh];
@@ -159,7 +197,25 @@
   };
 
   window.HAKI.init();
+
   if(window.HAKI.installAIUI)window.HAKI.installAIUI();
+
+  // Always-visible mobile Undo / Redo controls.
+  if(!document.getElementById('mobileHistory')){
+    const history=document.createElement('div');
+    history.id='mobileHistory';
+    history.innerHTML='<button id="mobileUndo" type="button">↶ Deshacer</button><button id="mobileRedo" type="button">↷ Rehacer</button>';
+    history.setAttribute('style','position:fixed;z-index:47;left:62px;top:62px;display:flex;gap:6px;padding:4px;background:rgba(14,16,20,.88);border:1px solid #303641;border-radius:11px;backdrop-filter:blur(8px)');
+    const styleBtn=b=>b.setAttribute('style','border:1px solid #3b424d;background:#20242c;color:#fff;border-radius:8px;padding:8px 10px;font-size:12px;font-weight:700');
+    const ub=history.querySelector('#mobileUndo'),rb=history.querySelector('#mobileRedo');
+    styleBtn(ub);styleBtn(rb);
+    ub.onclick=()=>HAKI.undo();
+    rb.onclick=()=>HAKI.redo();
+    document.body.appendChild(history);
+    const syncHistoryVisibility=()=>{history.style.display=window.innerWidth<=900?'flex':'none'};
+    syncHistoryVisibility();
+    window.addEventListener('resize',syncHistoryVisibility);
+  }
   const panel=document.getElementById('sidepanel');
   if(panel && !document.getElementById('mobileBack')){
     const back=document.createElement('button');
@@ -170,7 +226,7 @@
     back.onclick=()=>panel.classList.remove('open');
     panel.prepend(back);
   }
-  document.documentElement.dataset.hakiVersion='0.3.0-ai';
+  document.documentElement.dataset.hakiVersion='0.3.1-aiwarp';
 })().catch(err=>{
   console.error(err);
   const b=document.getElementById('boot');
