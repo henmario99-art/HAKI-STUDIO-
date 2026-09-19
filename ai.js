@@ -203,25 +203,101 @@ H.autoFitAI=()=>{
   let d=H.active();
   if(!d||d.hakiKind!=='design'||!H.isImage(d))d=[...H.canvas.getObjects()].reverse().find(x=>x.hakiKind==='design'&&H.isImage(x));
   if(!d){H.toast('Selecciona o añade un diseño');return}
+
   let z=null;
   if(d.hakiMaskId)z=H.canvas.getObjects().find(x=>x.hakiId===d.hakiMaskId);
   if(!z)z=nearestZone(d);
   if(!z){H.toast('Primero crea las zonas IA');return}
-  const zw=z.getScaledWidth(),zh=z.getScaledHeight(),s=Math.min(zw/d.width,zh/d.height)*.88;
-  const c=z.getCenterPoint();
-  d.set({left:c.x,top:c.y,originX:'center',originY:'center',scaleX:s,scaleY:s,angle:z.angle||0,globalCompositeOperation:'source-over'});
-  d.setCoords();H.canvas.setActiveObject(d);
-  H.applyMask(z.hakiId);
-  const strength=+(document.getElementById('aiWarpStrength')?.value||35)/100;
+
+  // Do not create intermediate history states: one Undo returns to the pre-AI state.
+  const zw=z.getScaledWidth(),zh=z.getScaledHeight();
+  const fit=Math.min(zw/d.width,zh/d.height)*.90;
+  const center=z.getCenterPoint();
+  d.set({
+    left:center.x,top:center.y,
+    originX:'center',originY:'center',
+    scaleX:fit,scaleY:fit,
+    angle:z.angle||0,
+    globalCompositeOperation:'source-over'
+  });
+  d.setCoords();
+  H.canvas.setActiveObject(d);
+
+  // Apply the zone mask without taking an intermediate snapshot.
+  d.hakiMaskId=z.hakiId;
+  d.clipPath=new fabric.Rect({
+    left:z.left,top:z.top,width:z.width,height:z.height,
+    scaleX:z.scaleX,scaleY:z.scaleY,angle:z.angle,
+    skewX:z.skewX,skewY:z.skewY,
+    originX:z.originX,originY:z.originY,
+    absolutePositioned:true,fill:'#000'
+  });
+
+  const rawStrength=+(document.getElementById('aiWarpStrength')?.value||55)/100;
+  const relief=H.aiAnalysis?.depthStrength ?? H.aiAnalysis?.relief ?? .35;
+  // Keep a useful minimum so Auto adaptar is visibly different even at modest slider values.
+  const strength=clamp(.28+rawStrength*.72,0,1);
   const W=d.getScaledWidth(),HH=d.getScaledHeight();
-  let vals={tlx:W*.025*strength,tly:HH*.015*strength,trx:-W*.025*strength,try:HH*.015*strength,blx:0,bly:0,brx:0,bry:0};
-  if(z.hakiRegion==='sleeve-left')vals={tlx:W*.08*strength,tly:0,trx:-W*.02*strength,try:HH*.06*strength,blx:W*.03*strength,bly:0,brx:-W*.07*strength,bry:-HH*.04*strength};
-  if(z.hakiRegion==='sleeve-right')vals={tlx:W*.02*strength,tly:HH*.06*strength,trx:-W*.08*strength,try:0,blx:W*.07*strength,bly:-HH*.04*strength,brx:-W*.03*strength,bry:0};
+
+  let vals={
+    tlx: W*.055*strength, tly: HH*.025*strength,
+    trx:-W*.055*strength, try: HH*.025*strength,
+    blx:-W*.018*strength, bly:-HH*.006*strength,
+    brx: W*.018*strength, bry:-HH*.006*strength
+  };
+
+  if(z.hakiRegion==='chest-left')vals={
+    tlx: W*.09*strength,tly:HH*.025*strength,
+    trx:-W*.025*strength,try:HH*.06*strength,
+    blx: W*.025*strength,bly:-HH*.015*strength,
+    brx:-W*.055*strength,bry:-HH*.035*strength
+  };
+  if(z.hakiRegion==='chest-right')vals={
+    tlx: W*.025*strength,tly:HH*.06*strength,
+    trx:-W*.09*strength,try:HH*.025*strength,
+    blx: W*.055*strength,bly:-HH*.035*strength,
+    brx:-W*.025*strength,bry:-HH*.015*strength
+  };
+  if(z.hakiRegion==='sleeve-left')vals={
+    tlx: W*.15*strength,tly:-HH*.025*strength,
+    trx:-W*.035*strength,try:HH*.10*strength,
+    blx: W*.075*strength,bly:HH*.025*strength,
+    brx:-W*.13*strength,bry:-HH*.07*strength
+  };
+  if(z.hakiRegion==='sleeve-right')vals={
+    tlx: W*.035*strength,tly:HH*.10*strength,
+    trx:-W*.15*strength,try:-HH*.025*strength,
+    blx: W*.13*strength,bly:-HH*.07*strength,
+    brx:-W*.075*strength,bry:HH*.025*strength
+  };
+  if(z.hakiRegion==='full')vals={
+    tlx: W*.065*strength,tly:HH*.018*strength,
+    trx:-W*.065*strength,try:HH*.018*strength,
+    blx:-W*.025*strength,bly:0,
+    brx: W*.025*strength,bry:0
+  };
+  if((z.hakiRegion||'').startsWith('leg-'))vals={
+    tlx: W*.055*strength,tly:0,
+    trx:-W*.055*strength,try:HH*.025*strength,
+    blx:-W*.035*strength,bly:0,
+    brx: W*.035*strength,bry:-HH*.025*strength
+  };
+
   const set=(id,v)=>{const e=H.$('#'+id);if(e)e.value=Math.round(v)};
-  set('warpTLX',vals.tlx);set('warpTLY',vals.tly);set('warpTRX',vals.trx);set('warpTRY',vals.try);
-  set('warpBLX',vals.blx);set('warpBLY',vals.bly);set('warpBRX',vals.brx);set('warpBRY',vals.bry);
+  set('warpTLX',vals.tlx);set('warpTLY',vals.tly);
+  set('warpTRX',vals.trx);set('warpTRY',vals.try);
+  set('warpBLX',vals.blx);set('warpBLY',vals.bly);
+  set('warpBRX',vals.brx);set('warpBRY',vals.bry);
+
+  // Tell the renderer to bend the interior mesh according to body region + relief.
+  H.aiWarpProfile={region:z.hakiRegion||'chest',strength,relief};
+  H.canvas.requestRenderAll();
   H.applyWarp();
-  H.toast('Diseño adaptado a '+H.objectName(z));
+  setTimeout(()=>{H.aiWarpProfile=null},1200);
+
+  const panel=document.getElementById('sidepanel');
+  if(panel)panel.classList.remove('open');
+  H.toast('Auto adaptación aplicada · usa Deshacer para revertir');
 };
 
 
@@ -305,8 +381,8 @@ H.installAIUI=()=>{
     <div id="aiResult" style="margin:9px 0;padding:9px;border:1px solid #303641;border-radius:8px;font-size:11px;color:#b7bec8">Sin analizar</div>
     <div class="grid2"><button id="aiZones" disabled>Crear zonas IA</button><button id="aiAutoFit" disabled>Auto adaptar</button></div>
     <button class="wide" id="aiDepth" style="margin-top:7px">◈ Analizar profundidad IA Pro</button>
-    <label style="margin-top:9px">Deformación inteligente <span id="aiWarpValue">35%</span>
-      <input id="aiWarpStrength" type="range" min="0" max="100" value="35">
+    <label style="margin-top:9px">Deformación inteligente <span id="aiWarpValue">55%</span>
+      <input id="aiWarpStrength" type="range" min="0" max="100" value="55">
     </label>`;
   page.prepend(card);
   card.querySelector('#aiAnalyze').onclick=H.analyzeMockupAI;
