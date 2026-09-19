@@ -243,6 +243,58 @@ H.applyMask=id=>{
   baseApplyMask(id);
 };
 
+
+function compactMockupData(o){
+  const el=o.getElement(),sw=el.naturalWidth||el.width,sh=el.naturalHeight||el.height;
+  const max=420,s=Math.min(1,max/Math.max(sw,sh)),w=Math.max(64,Math.round(sw*s)),h=Math.max(64,Math.round(sh*s));
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+  const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(el,0,0,w,h);
+  let q=.72,data=cv.toDataURL('image/jpeg',q);
+  while(data.length>300000&&q>.35){q-=.08;data=cv.toDataURL('image/jpeg',q)}
+  return data;
+}
+async function depthReliefScore(url){
+  return await new Promise((resolve,reject)=>{
+    const im=new Image();im.crossOrigin='anonymous';
+    im.onload=()=>{
+      try{
+        const cv=document.createElement('canvas'),w=96,h=Math.max(32,Math.round(96*im.height/im.width));cv.width=w;cv.height=h;
+        const x=cv.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0,w,h);
+        const d=x.getImageData(0,0,w,h).data;let m=0,s=0,n=0;
+        for(let i=0;i<d.length;i+=16){const L=d[i];m+=L;s+=L*L;n++}
+        m/=Math.max(1,n);const sd=Math.sqrt(Math.max(0,s/Math.max(1,n)-m*m));
+        resolve(clamp(sd/58,0,1));
+      }catch(e){reject(e)}
+    };
+    im.onerror=reject;im.src=url;
+  });
+}
+H.runDepthAI=async()=>{
+  const o=mockup();if(!o){H.toast('Primero añade un mockup');return}
+  const out=document.getElementById('aiResult');
+  if(out)out.innerHTML='<strong>Profundidad IA…</strong><br><span>Analizando volumen real de la prenda</span>';
+  H.status('Calculando profundidad IA…');
+  try{
+    const r=await fetch('/api/depth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:compactMockupData(o)})});
+    const j=await r.json();
+    if(r.status===503&&j.code==='NO_TOKEN'){
+      if(out)out.innerHTML='<strong>IA local activa</strong><br><span>Profundidad Pro preparada; falta conectar la credencial del servidor.</span>';
+      H.status('Listo');H.toast('Profundidad Pro preparada, falta conexión');return;
+    }
+    if(!r.ok)throw new Error(j.error||'No pude calcular profundidad');
+    if(!j.depth)throw new Error('La profundidad todavía está procesándose');
+    if(!H.aiAnalysis)await H.analyzeMockupAI();
+    const score=await depthReliefScore(j.depth).catch(()=>.45);
+    H.aiAnalysis=H.aiAnalysis||{};H.aiAnalysis.depthURL=j.depth;H.aiAnalysis.depthStrength=score;
+    const slider=document.getElementById('aiWarpStrength');
+    if(slider){slider.value=Math.round(25+score*50);slider.dispatchEvent(new Event('input'))}
+    if(out)out.innerHTML='<strong>Profundidad IA lista</strong><br><span>Relieve real detectado · Auto adaptar usará este mapa.</span>';
+    H.status('Profundidad IA lista');H.toast('Mapa de profundidad listo');
+  }catch(e){
+    H.status('Listo');if(out)out.innerHTML='<strong>IA local activa</strong><br><span>'+String(e.message||e)+'</span>';H.toast(e.message||'Error IA');
+  }
+};
+
 H.installAIUI=()=>{
   const page=document.getElementById('mockupPage');if(!page||document.getElementById('aiMockupCard'))return;
   const card=document.createElement('div');card.className='card';card.id='aiMockupCard';
@@ -252,6 +304,7 @@ H.installAIUI=()=>{
     <button class="primary wide" id="aiAnalyze">✨ Analizar mockup</button>
     <div id="aiResult" style="margin:9px 0;padding:9px;border:1px solid #303641;border-radius:8px;font-size:11px;color:#b7bec8">Sin analizar</div>
     <div class="grid2"><button id="aiZones" disabled>Crear zonas IA</button><button id="aiAutoFit" disabled>Auto adaptar</button></div>
+    <button class="wide" id="aiDepth" style="margin-top:7px">◈ Profundidad IA Pro</button>
     <label style="margin-top:9px">Deformación inteligente <span id="aiWarpValue">35%</span>
       <input id="aiWarpStrength" type="range" min="0" max="100" value="35">
     </label>`;
@@ -259,6 +312,7 @@ H.installAIUI=()=>{
   card.querySelector('#aiAnalyze').onclick=H.analyzeMockupAI;
   card.querySelector('#aiZones').onclick=H.createAIZones;
   card.querySelector('#aiAutoFit').onclick=H.autoFitAI;
+  card.querySelector('#aiDepth').onclick=H.runDepthAI;
   card.querySelector('#aiWarpStrength').oninput=e=>card.querySelector('#aiWarpValue').textContent=e.target.value+'%';
 };
 })();
