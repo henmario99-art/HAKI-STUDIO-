@@ -215,7 +215,7 @@ H.autoFitAI=()=>{
 H.installAIUI=()=>{
   const page=document.getElementById('mockupPage');if(!page||document.getElementById('aiMockupCard'))return;
   const card=document.createElement('div');card.className='card';card.id='aiMockupCard';
-  card.innerHTML=\`
+  card.innerHTML=`
     <h3>IA MOCKUP</h3>
     <p class="hint">Detecta la prenda, su silueta y zonas útiles para colocar diseños.</p>
     <button class="primary wide" id="aiAnalyze">✨ Analizar mockup</button>
@@ -223,7 +223,7 @@ H.installAIUI=()=>{
     <div class="grid2"><button id="aiZones" disabled>Crear zonas IA</button><button id="aiAutoFit" disabled>Auto adaptar</button></div>
     <label style="margin-top:9px">Deformación inteligente <span id="aiWarpValue">35%</span>
       <input id="aiWarpStrength" type="range" min="0" max="100" value="35">
-    </label>\`;
+    </label>`;
   page.prepend(card);
   card.querySelector('#aiAnalyze').onclick=H.analyzeMockupAI;
   card.querySelector('#aiZones').onclick=H.createAIZones;
