@@ -11,7 +11,7 @@
   for(const file of ['core.js','editor.js','warp.js','storage.js','ui.js']){
     await load(base+file);
   }
-  await load('./ai.js?v=1');
+  await load('./ai.js?v=4');
   
 
   // Mobile-friendly print zones: always anchor to the visible mockup/design.
@@ -226,7 +226,7 @@
     back.onclick=()=>panel.classList.remove('open');
     panel.prepend(back);
   }
-  document.documentElement.dataset.hakiVersion='0.3.1-aiwarp';
+  document.documentElement.dataset.hakiVersion='0.3.2-aiwarp';
 })().catch(err=>{
   console.error(err);
   const b=document.getElementById('boot');
