@@ -288,7 +288,7 @@ H.runDepthAI=async()=>{
     H.aiAnalysis=H.aiAnalysis||{};H.aiAnalysis.depthURL=j.depth;H.aiAnalysis.depthStrength=score;
     const slider=document.getElementById('aiWarpStrength');
     if(slider){slider.value=Math.round(25+score*50);slider.dispatchEvent(new Event('input'))}
-    if(out)out.innerHTML='<strong>Profundidad IA lista</strong><br><span>Relieve real detectado · Auto adaptar usará este mapa.</span>';
+    if(out)out.innerHTML='<strong>Profundidad IA lista</strong><br><span>Relieve real detectado · Auto adaptar ajustará la deformación con esta profundidad.</span>';
     H.status('Profundidad IA lista');H.toast('Mapa de profundidad listo');
   }catch(e){
     H.status('Listo');if(out)out.innerHTML='<strong>IA local activa</strong><br><span>'+String(e.message||e)+'</span>';H.toast(e.message||'Error IA');
@@ -304,7 +304,7 @@ H.installAIUI=()=>{
     <button class="primary wide" id="aiAnalyze">✨ Analizar mockup</button>
     <div id="aiResult" style="margin:9px 0;padding:9px;border:1px solid #303641;border-radius:8px;font-size:11px;color:#b7bec8">Sin analizar</div>
     <div class="grid2"><button id="aiZones" disabled>Crear zonas IA</button><button id="aiAutoFit" disabled>Auto adaptar</button></div>
-    <button class="wide" id="aiDepth" style="margin-top:7px">◈ Profundidad IA Pro</button>
+    <button class="wide" id="aiDepth" style="margin-top:7px">◈ Analizar profundidad IA Pro</button>
     <label style="margin-top:9px">Deformación inteligente <span id="aiWarpValue">35%</span>
       <input id="aiWarpStrength" type="range" min="0" max="100" value="35">
     </label>`;
