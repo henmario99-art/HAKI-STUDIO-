@@ -236,10 +236,10 @@ H.autoFitAI=()=>{
     absolutePositioned:true,fill:'#000'
   });
 
-  const rawStrength=+(document.getElementById('aiWarpStrength')?.value||55)/100;
+  const rawStrength=+(document.getElementById('aiWarpStrength')?.value||70)/100;
   const relief=H.aiAnalysis?.depthStrength ?? H.aiAnalysis?.relief ?? .35;
   // Keep a useful minimum so Auto adaptar is visibly different even at modest slider values.
-  const strength=clamp(.60+rawStrength*.40,0,1);
+  const strength=clamp(.72+rawStrength*.28,0,1);
   const W=d.getScaledWidth(),HH=d.getScaledHeight();
 
   let vals={
@@ -383,14 +383,21 @@ H.installAIUI=()=>{
     <button class="primary wide" id="aiAnalyze">✨ Analizar mockup</button>
     <div id="aiResult" style="margin:9px 0;padding:9px;border:1px solid #303641;border-radius:8px;font-size:11px;color:#b7bec8">Sin analizar</div>
     <div class="grid2"><button id="aiZones" disabled>Crear zonas IA</button><button id="aiAutoFit" disabled>Auto adaptar</button></div>
-    <button class="wide" id="aiDepth" style="margin-top:7px">◈ Analizar profundidad IA Pro</button>
-    <label style="margin-top:9px">Deformación inteligente <span id="aiWarpValue">55%</span>
-      <input id="aiWarpStrength" type="range" min="0" max="100" value="55">
+    <div class="grid2" style="margin-top:7px"><button id="aiGuides">Mostrar/ocultar guías</button><button id="aiDepth">◈ Profundidad IA Pro</button></div>
+    <label style="margin-top:9px">Deformación inteligente <span id="aiWarpValue">70%</span>
+      <input id="aiWarpStrength" type="range" min="0" max="100" value="70">
     </label>`;
   page.prepend(card);
   card.querySelector('#aiAnalyze').onclick=H.analyzeMockupAI;
   card.querySelector('#aiZones').onclick=H.createAIZones;
   card.querySelector('#aiAutoFit').onclick=H.autoFitAI;
+  card.querySelector('#aiGuides').onclick=()=>{
+    const guides=H.canvas.getObjects().filter(x=>x.hakiAI&&x.hakiKind==='printzone');
+    const show=guides.some(x=>!x.visible);
+    guides.forEach(x=>{x.visible=show;x.selectable=show&&!x.hakiGuide;x.evented=show&&!x.hakiGuide});
+    H.canvas.discardActiveObject();H.refresh();
+    H.toast(show?'Guías IA visibles':'Guías IA ocultas');
+  };
   card.querySelector('#aiDepth').onclick=H.runDepthAI;
   card.querySelector('#aiWarpStrength').oninput=e=>card.querySelector('#aiWarpValue').textContent=e.target.value+'%';
 };
