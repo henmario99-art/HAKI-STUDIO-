@@ -1,0 +1,133 @@
+latCanvas.x,flatCanvas.y];
+    const [sx,sy]=surfaceMap(a,x,y,strength);
+    const p=canvasFromImageNorm(mock,sx,sy);return[p.x,p.y];
+  };
+  const tri=(s,d)=>{const m=affine(s,d);if(!m)return;ctx.save();ctx.beginPath();ctx.moveTo(...d[0]);ctx.lineTo(...d[1]);ctx.lineTo(...d[2]);ctx.closePath();ctx.clip();ctx.setTransform(...m);ctx.drawImage(src,0,0);ctx.restore()};
+  for(let iy=0;iy<N;iy++)for(let ix=0;ix<N;ix++){
+    const u0=ix/N,u1=(ix+1)/N,v0=iy/N,v1=(iy+1)/N;
+    const s00=[u0*sw,v0*sh],s10=[u1*sw,v0*sh],s11=[u1*sw,v1*sh],s01=[u0*sw,v1*sh];
+    const d00=map(u0,v0),d10=map(u1,v0),d11=map(u1,v1),d01=map(u0,v1);
+    tri([s00,s10,s11],[d00,d10,d11]);tri([s00,s11,s01],[d00,d11,d01]);
+  }
+  const mask=buildMaskCanvas(a);
+  ctx.save();
+  ctx.globalCompositeOperation='destination-in';
+  const m=mock.calcTransformMatrix();
+  ctx.setTransform(m[0],m[1],m[2],m[3],m[4],m[5]);
+  ctx.drawImage(mask,-mock.width/2,-mock.height/2,mock.width,mock.height);
+  ctx.restore();
+  proj.clipPath=null;proj.dirty=true;H.canvas.requestRenderAll();
+}
+function schedule(controller,q='live'){
+  if(!controller?._surfaceEnabled)return;controller._surfaceNext=q;if(controller._surfaceRAF)return;
+  controller._surfaceRAF=requestAnimationFrame(()=>{controller._surfaceRAF=0;const quality=controller._surfaceNext||'live';controller._surfaceNext='live';renderProjection(controller,quality)});
+}
+
+H.surfaceLoadReference=(opts={})=>{
+  const {silent=false,autoAnalyze=false,side=S.side||'front'}=opts;
+  S.side=side;
+  const src=S.refs[side]||S.refs.front;
+  fabric.Image.fromURL(src,img=>{
+    if(!img){ if(!silent) H.toast('No pude cargar la camiseta de referencia'); return; }
+    H.canvas.getObjects().filter(o=>o.hakiKind==='mockup').forEach(o=>H.canvas.remove(o));
+    const mw=H.canvas.getWidth()*.90,mh=H.canvas.getHeight()*.90,sc=Math.min(mw/img.width,mh/img.height,1);
+    img.set({left:H.canvas.getWidth()/2,top:H.canvas.getHeight()/2,originX:'center',originY:'center',scaleX:sc,scaleY:sc,globalCompositeOperation:'source-over'});
+    H.addMeta(img,'mockup',side==='back'?'Mockup HAKI trasero':'Mockup HAKI frontal');
+    H.canvas.insertAt(img,0,false);H.canvas.setActiveObject(img);H.snapshot();H.refresh();H.fit();
+    const label=side==='back'?'espalda':'frente';
+    if(!silent) H.toast('Camiseta '+label+' cargada');
+    const tag=H.$('#surfaceSideTag'); if(tag) tag.textContent = side==='back' ? 'ESPALDA' : 'FRENTE';
+    if(autoAnalyze) setTimeout(()=>H.surfaceAnalyze({silent,side}), 60);
+  },{crossOrigin:'anonymous'});
+};
+
+H.surfaceAnalyze=(opts={})=>{
+  const {silent=false,side=S.side||'front'}=opts;
+  const mock=getMockup();if(!mock){ if(!silent) H.toast('Importa la camiseta'); return false; }
+  try{
+    S.analysis=analyzeShirt(mock,side);S.mockupId=mock.hakiId;S.side=side;
+    const pct=Math.round(S.analysis.confidence*100);
+    const label=side==='back'?'espalda':'frente';
+    H.$('#surfaceResult').innerHTML=`<strong>Camiseta ${label} preparada</strong><br><span>Máscara manual precisa de ${label} · confianza ${pct}%.</span>`;
+    H.$('#surfaceActivate').disabled=false;H.$('#surfaceGrid').disabled=false;
+    const tag=H.$('#surfaceSideTag'); if(tag) tag.textContent = side==='back' ? 'ESPALDA' : 'FRENTE';
+    if(!silent) H.toast('Superficie de camiseta creada');
+    return true;
+  }catch(e){
+    H.$('#surfaceResult').innerHTML='<strong>No detectada</strong><br><span>Usa el mockup frontal o trasero indicado.</span>';
+    if(!silent) H.toast(e.message||'No pude analizarla');
+    return false;
+  }
+};
+
+H.surfaceSwitchSide=(side='front')=>{
+  S.side=side;
+  clearGrid();
+  if(S._maskPreview){ H.canvas.remove(S._maskPreview); S._maskPreview=null; }
+  H.surfaceLoadReference({silent:false,autoAnalyze:true,side});
+};
+
+H.surfaceAutoBootstrap=()=>{
+  if(S._bootstrapped) return;
+  const hasMockup = H.canvas.getObjects().some(o=>o.hakiKind==='mockup');
+  if(hasMockup) return;
+  S._bootstrapped = true;
+  H.surfaceLoadReference({silent:true, autoAnalyze:true, side:'front'});
+};
+
+H.surfaceActivate=()=>{
+  if(!S.analysis){H.toast('Prepara primero la superficie');return}
+  const d=getDesign();if(!d){H.toast('Selecciona el diseño que quieres proyectar');return}
+  if(d._surfaceEnabled){renderProjection(d,'final');H.$('#sidepanel')?.classList.remove('open');return}
+  H.snapshot();createProjection(d);S.controllers.add(d);renderProjection(d,'final');H.$('#sidepanel')?.classList.remove('open');H.refresh();H.toast('Mockup activo · mueve el control');
+};
+H.surfaceDisable=()=>{
+  const o=H.active();if(!o?._surfaceEnabled){H.toast('Selecciona el control del diseño');return}
+  const p=o._surfaceProjectionObj;if(p)H.canvas.remove(p);o._surfaceEnabled=false;o.opacity=o._surfaceOriginalOpacity??1;o.globalCompositeOperation=o._surfaceOriginalBlend||'source-over';o.excludeFromExport=false;o.hakiName='Diseño';o._surfaceProjectionObj=null;S.controllers.delete(o);H.snapshot();H.refresh();H.toast('Proyección desactivada');
+};
+
+function clearGrid(){S.grid.forEach(o=>H.canvas.remove(o));S.grid=[]}
+H.surfaceToggleGrid=()=>{
+  if(S.grid.length){clearGrid();H.refresh();return}
+  const mock=getMockup(),a=S.analysis;if(!mock||!a){H.toast('Prepara primero la superficie');return}
+  const addLine=(pts)=>{const path='M '+pts.map((p,i)=>(i?'L ':'')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ')+' ';const o=new fabric.Path(path,{fill:'',stroke:'#00eaff',strokeWidth:2,opacity:.65,selectable:false,evented:false,excludeFromExport:true});o.hakiKind='surface-grid';H.canvas.add(o);S.grid.push(o)};
+  for(let x=.06;x<=.94;x+=.09){const pts=[];for(let y=.08;y<=.94;y+=.022){const [sx,sy]=surfaceMap(a,x,y,.58);pts.push(canvasFromImageNorm(mock,sx,sy))}addLine(pts)}
+  for(let y=.10;y<=.92;y+=.085){const pts=[];for(let x=.03;x<=.97;x+=.022){const [sx,sy]=surfaceMap(a,x,y,.58);pts.push(canvasFromImageNorm(mock,sx,sy))}addLine(pts)}
+  H.refresh();H.toast('Malla de superficie visible');
+};
+
+H.surfaceMaskPreview=()=>{
+  const mock=getMockup(),a=S.analysis;if(!mock||!a){H.toast('Escanea primero la camiseta');return}
+  if(S._maskPreview){H.canvas.remove(S._maskPreview);S._maskPreview=null;H.refresh();H.toast('Máscara oculta');return}
+  const mask=buildMaskCanvas(a);
+  fabric.Image.fromURL(mask.toDataURL('image/png'),img=>{
+    img.set({left:mock.left,top:mock.top,originX:mock.originX,originY:mock.originY,angle:mock.angle,scaleX:Math.abs(mock.scaleX||1),scaleY:Math.abs(mock.scaleY||1),opacity:.28,selectable:false,evented:false,excludeFromExport:true});
+    H.canvas.add(img); S._maskPreview=img; H.refresh(); H.toast('Máscara vectorial visible');
+  },{crossOrigin:'anonymous'});
+};
+
+H.installSurfaceEvents=()=>{
+  if(H._surfaceEvents)return;H._surfaceEvents=true;const c=H.canvas;
+  ['object:moving','object:scaling','object:rotating','object:skewing'].forEach(ev=>c.on(ev,e=>schedule(e.target,'live')));
+  c.on('object:modified',e=>schedule(e.target,'final'));
+};
+
+H.installSmartUI=()=>{
+  const page=H.$('#mockupPage');if(!page||H.$('#surfaceCard'))return;
+  const card=document.createElement('div');card.className='card';card.id='surfaceCard';card.innerHTML=`
+    <h3>Mockup 3D de superficie <span id="surfaceSideTag" style="font-size:11px;padding:3px 6px;border:1px solid #303641;border-radius:999px;margin-left:6px">FRENTE</span></h3>
+    <p class="hint">Calibrado únicamente para esta camiseta HAKI. Usa máscaras manuales precisas para frente y espalda, con cuello y axilas ajustados específicamente a esta camiseta.</p>
+    <div class="grid2"><button id="surfaceFrontRef">Cargar frente</button><button id="surfaceBackRef">Cargar espalda</button></div>
+    <button class="wide primary" id="surfaceAnalyze" style="margin-top:8px">1 · Escanear lado actual</button>
+    <div id="surfaceResult" style="margin:10px 0;padding:10px;border:1px solid #303641;border-radius:8px;font-size:12px;color:#c8d0d9">Sin preparar</div>
+    <button class="wide primary" id="surfaceActivate" disabled>2 · Activar proyección</button>
+    <div class="grid2" style="margin-top:8px"><button id="surfaceGrid" disabled>Ver malla</button><button id="surfaceDisable">Desactivar</button></div><button class="wide" id="surfaceMaskPreview" style="margin-top:8px">Ver máscara vectorial</button>
+    <label>Curvatura <span id="surfaceStrengthValue">48%</span><input id="surfaceStrength" type="range" min="0" max="100" value="48"></label>
+    <p class="hint">Después de activar, mueve/escala/rota el marco del diseño directamente sobre la camiseta. Puedes alternar entre frente y espalda.</p>`;
+  page.prepend(card);
+  H.$('#surfaceFrontRef').onclick=()=>H.surfaceSwitchSide('front');H.$('#surfaceBackRef').onclick=()=>H.surfaceSwitchSide('back');H.$('#surfaceAnalyze').onclick=()=>H.surfaceAnalyze({side:S.side});H.$('#surfaceActivate').onclick=H.surfaceActivate;H.$('#surfaceDisable').onclick=H.surfaceDisable;H.$('#surfaceGrid').onclick=H.surfaceToggleGrid;H.$('#surfaceMaskPreview').onclick=H.surfaceMaskPreview;
+  H.$('#surfaceStrength').oninput=e=>{H.$('#surfaceStrengthValue').textContent=e.target.value+'%';const o=H.active();if(o?._surfaceEnabled){o._surfaceStrength=+e.target.value/100;schedule(o,'final')}};
+  H.installSurfaceEvents();
+  setTimeout(()=>H.surfaceAutoBootstrap&&H.surfaceAutoBootstrap(), 80);
+};
+})();
