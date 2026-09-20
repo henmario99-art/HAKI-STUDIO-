@@ -1,5 +1,5 @@
 (async()=>{
-  const base='https://raw.githack.com/henmario99-art/HAKI/haki-studio/studio/';
+  const base='./';
   const load=src=>new Promise((resolve,reject)=>{
     const s=document.createElement('script');
     s.src=src;
@@ -235,7 +235,7 @@
     back.onclick=()=>panel.classList.remove('open');
     panel.prepend(back);
   }
-  document.documentElement.dataset.hakiVersion='0.4.0-manual';
+  document.documentElement.dataset.hakiVersion='vercel-local-1.0';
 })().catch(err=>{
   console.error(err);
   const b=document.getElementById('boot');
