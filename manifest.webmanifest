@@ -1,0 +1,13 @@
+{
+  "name": "HAKI Studio",
+  "short_name": "HAKI Studio",
+  "description": "Editor de mockups y diseño de productos HAKI",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0e1014",
+  "theme_color": "#111318",
+  "orientation": "any",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
