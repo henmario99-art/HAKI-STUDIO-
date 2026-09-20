@@ -1,1 +1,148 @@
-(()=>{'use strict';const H=window.HAKI;const S=H.mockupSurface={side:'front',controllers:new Set(),analysis:true};const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const g=(x,y,cx,cy,sx,sy)=>Math.exp(-(((x-cx)/sx)**2+((y-cy)/sy)**2)/2);function map(x,y,k){let nx=x,ny=y;const pecL=g(x,y,.38,.36,.13,.1),pecR=g(x,y,.62,.36,.13,.1),torso=g(x,y,.5,.55,.28,.34),shL=g(x,y,.22,.2,.16,.09),shR=g(x,y,.78,.2,.16,.09);nx+=(x-.5)*torso*.035*k+(x-.38)*pecL*.06*k+(x-.62)*pecR*.06*k+(x-.22)*shL*.03*k+(x-.78)*shR*.03*k;ny-=(pecL+pecR)*.016*k-(g(x,y,.5,.37,.08,.14)*.005*k);return[nx,ny]}function affine(s,d){const[a,b,c]=s,[A,B,C]=d,x0=a[0],y0=a[1],x1=b[0],y1=b[1],x2=c[0],y2=c[1],D=x0*(y1-y2)+x1*(y2-y0)+x2*(y0-y1);if(Math.abs(D)<1e-7)return null;return[(A[0]*(y1-y2)+B[0]*(y2-y0)+C[0]*(y0-y1))/D,(A[1]*(y1-y2)+B[1]*(y2-y0)+C[1]*(y0-y1))/D,(A[0]*(x2-x1)+B[0]*(x0-x2)+C[0]*(x1-x0))/D,(A[1]*(x2-x1)+B[1]*(x0-x2)+C[1]*(x1-x0))/D,(A[0]*(x1*y2-x2*y1)+B[0]*(x2*y0-x0*y2)+C[0]*(x0*y1-x1*y0))/D,(A[1]*(x1*y2-x2*y1)+B[1]*(x2*y0-x0*y2)+C[1]*(x0*y1-x1*y0))/D]}function tri(ctx,img,s,d){const m=affine(s,d);if(!m)return;ctx.save();ctx.beginPath();ctx.moveTo(...d[0]);ctx.lineTo(...d[1]);ctx.lineTo(...d[2]);ctx.closePath();ctx.clip();ctx.setTransform(...m);ctx.drawImage(img,0,0);ctx.restore()}function render(o){if(!o?._surfaceEnabled||!H.isImage(o))return;const el=o.getElement(),sw=el.naturalWidth||el.width,sh=el.naturalHeight||el.height,W=Math.max(32,Math.round(o.getScaledWidth())),HH=Math.max(32,Math.round(o.getScaledHeight())),off=document.createElement('canvas');off.width=W;off.height=HH;const ctx=off.getContext('2d'),N=20,k=o._surfaceStrength??.45;for(let iy=0;iy<N;iy++)for(let ix=0;ix<N;ix++){const u0=ix/N,u1=(ix+1)/N,v0=iy/N,v1=(iy+1)/N,p00=map(u0,v0,k),p10=map(u1,v0,k),p11=map(u1,v1,k),p01=map(u0,v1,k),s00=[u0*sw,v0*sh],s10=[u1*sw,v0*sh],s11=[u1*sw,v1*sh],s01=[u0*sw,v1*sh],d00=[p00[0]*W,p00[1]*HH],d10=[p10[0]*W,p10[1]*HH],d11=[p11[0]*W,p11[1]*HH],d01=[p01[0]*W,p01[1]*HH];tri(ctx,el,[s00,s10,s11],[d00,d10,d11]);tri(ctx,el,[s00,s11,s01],[d00,d11,d01])}fabric.Image.fromURL(off.toDataURL('image/png'),img=>{img.set({left:o.left,top:o.top,originX:o.originX,originY:o.originY,angle:o.angle,opacity:o.opacity,selectable:false,evented:false});H.addMeta(img,'projection',H.objectName(o)+' proyecciÃ³n');if(o._surfaceProjection)H.canvas.remove(o._surfaceProjection);o._surfaceProjection=img;H.canvas.add(img);o.opacity=.12;H.canvas.setActiveObject(o);H.canvas.requestRenderAll()})}H.surfaceActivate=()=>{const o=H.active();if(!H.isImage(o)||o.hakiKind==='mockup'){H.toast('Selecciona un diseÃ±o');return}o._surfaceEnabled=true;o._surfaceStrength=+(H.$('#surfaceStrength')?.value||45)/100;S.controllers.add(o);render(o);H.toast('ProyecciÃ³n activada')};H.surfaceDisable=()=>{const o=H.active();if(o?._surfaceProjection)H.canvas.remove(o._surfaceProjection);if(o){o._surfaceEnabled=false;o.opacity=1}H.refresh()};H.installSurfaceEvents=()=>{['object:moving','object:scaling','object:rotating','object:modified'].forEach(ev=>H.canvas.on(ev,e=>{const o=e.target;if(o?._surfaceEnabled){clearTimeout(o._surfaceTimer);o._surfaceTimer=setTimeout(()=>render(o),ev==='object:modified'?0:45)}}))};H.installSmartUI=()=>{const page=H.$('#mockupPage');if(!page||H.$('#surfaceCard'))return;const card=document.createElement('div');card.className='card';card.id='surfaceCard';card.innerHTML='<h3>Superficie HAKI</h3><p class="hint">Motor de deformaciÃ³n en vivo. Esta versiÃ³n en Vercel ya no depende de Doufu.</p><button class="wide primary" id="surfaceActivate">Activar proyecciÃ³n</button><button class="wide" style="margin-top:8px" id="surfaceDisable">Desactivar</button><label>Curvatura <span id="surfaceStrengthValue">45%</span><input id="surfaceStrength" type="range" min="0" max="100" value="45"></label>';page.prepend(card);H.$('#surfaceActivate').onclick=H.surfaceActivate;H.$('#surfaceDisable').onclick=H.surfaceDisable;H.$('#surfaceStrength').oninput=e=>{H.$('#surfaceStrengthValue').textContent=e.target.value+'%';const o=H.active();if(o?._surfaceEnabled){o._surfaceStrength=+e.target.value/100;render(o)}};H.installSurfaceEvents()};})();
+(()=>{
+'use strict';
+const H=window.HAKI;
+if(!H)return;
+
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const S=H.mockupSurface={analysis:null,mockupId:null,controllers:new Set(),grid:[],side:'front',refs:{front:'./haki-front-reference.jpg',back:'./haki-back-reference.jpg'}};
+
+function getMockup(){
+  const a=H.active();
+  if(a?.hakiKind==='mockup')return a;
+  return [...H.canvas.getObjects()].reverse().find(o=>o.hakiKind==='mockup'&&o.visible!==false)||null;
+}
+function getDesign(){
+  const a=H.active();
+  if(a?.hakiKind==='design'&&H.isImage(a)&&!a._surfaceProjection)return a;
+  return [...H.canvas.getObjects()].reverse().find(o=>o.hakiKind==='design'&&H.isImage(o)&&!o._surfaceProjection)||null;
+}
+function toCanvasPoint(obj,x,y){
+  return fabric.util.transformPoint(new fabric.Point(x-obj.width/2,y-obj.height/2),obj.calcTransformMatrix());
+}
+
+function analyzeShirt(mock,side='front'){
+  const el=mock.getElement();
+  const sw=el.naturalWidth||el.videoWidth||el.width,sh=el.naturalHeight||el.videoHeight||el.height;
+  const maxSide=300,s=Math.min(1,maxSide/Math.max(sw,sh)),w=Math.max(80,Math.round(sw*s)),h=Math.max(80,Math.round(sh*s));
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+  const ctx=cv.getContext('2d',{willReadFrequently:true});ctx.drawImage(el,0,0,w,h);
+  const d=ctx.getImageData(0,0,w,h).data;
+
+  let br=0,bg=0,bb=0,bn=0;
+  const border=[];
+  for(let x=0;x<w;x++){border.push(x,(h-1)*w+x)}
+  for(let y=1;y<h-1;y++){border.push(y*w,y*w+w-1)}
+  for(const q of border){const i=q*4;if(d[i+3]<12)continue;br+=d[i];bg+=d[i+1];bb+=d[i+2];bn++}
+  const base=bn?[br/bn,bg/bn,bb/bn]:[245,245,245];
+  const bgLum=.2126*base[0]+.7152*base[1]+.0722*base[2];
+  const raw=new Uint8Array(w*h);
+  for(let i=0;i<w*h;i++){
+    const p=i*4,L=.2126*d[p]+.7152*d[p+1]+.0722*d[p+2];
+    const delta=Math.hypot(d[p]-base[0],d[p+1]-base[1],d[p+2]-base[2]);
+    raw[i]=(d[p+3]>15&&(delta>32||L<bgLum-26))?1:0;
+  }
+  const seen=new Uint8Array(raw.length),queue=new Int32Array(raw.length);let best=[];
+  for(let i=0;i<raw.length;i++){
+    if(!raw[i]||seen[i])continue;
+    let head=0,tail=0;const comp=[];queue[tail++]=i;seen[i]=1;
+    while(head<tail){
+      const cur=queue[head++],x=cur%w,y=(cur/w)|0;comp.push(cur);
+      const ns=[x?cur-1:-1,x<w-1?cur+1:-1,y?cur-w:-1,y<h-1?cur+w:-1];
+      for(const n of ns)if(n>=0&&raw[n]&&!seen[n]){seen[n]=1;queue[tail++]=n}
+    }
+    if(comp.length>best.length)best=comp;
+  }
+  const mask=new Uint8Array(raw.length);best.forEach(i=>mask[i]=1);
+  let minX=w,minY=h,maxX=0,maxY=0,count=0;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(mask[y*w+x]){count++;minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y)}
+  if(count<w*h*.035)throw new Error('No pude aislar la camiseta');
+  const bw=maxX-minX+1,bh=maxY-minY+1;
+
+  // Verify the characteristic frontal compression-shirt silhouette.
+  const widthAt=t=>{
+    const y=clamp(Math.round(minY+bh*t),0,h-1);let l=-1,r=-1;
+    for(let x=minX;x<=maxX;x++)if(mask[y*w+x]){l=x;break}
+    for(let x=maxX;x>=minX;x--)if(mask[y*w+x]){r=x;break}
+    return l>=0&&r>=0?r-l+1:0;
+  };
+  const shoulderW=widthAt(.20),waistW=widthAt(.66),bottomW=widthAt(.88);
+  const confidence=clamp(((shoulderW/(waistW||1)-1)*1.7)+((shoulderW/(bottomW||1)-1)*.8)+.62,0,1);
+
+  // Actual low-frequency shading map from this exact image. We use it only as a subtle modifier.
+  const gw=54,gh=72;let relief=new Float32Array(gw*gh),valid=new Uint8Array(gw*gh),sum=0,n=0;
+  for(let gy=0;gy<gh;gy++)for(let gx=0;gx<gw;gx++){
+    const x=clamp(Math.round(minX+(gx/(gw-1))*bw),0,w-1),y=clamp(Math.round(minY+(gy/(gh-1))*bh),0,h-1),mi=y*w+x,p=mi*4;
+    if(mask[mi]){const L=(.2126*d[p]+.7152*d[p+1]+.0722*d[p+2])/255;relief[gy*gw+gx]=L;valid[gy*gw+gx]=1;sum+=L;n++}
+  }
+  const mean=n?sum/n:.18;
+  for(let i=0;i<relief.length;i++)if(!valid[i])relief[i]=mean;
+  for(let pass=0;pass<6;pass++){
+    const next=new Float32Array(relief.length);
+    for(let gy=0;gy<gh;gy++)for(let gx=0;gx<gw;gx++){
+      let acc=0,c=0;
+      for(let yy=-2;yy<=2;yy++)for(let xx=-2;xx<=2;xx++){
+        const x=clamp(gx+xx,0,gw-1),y=clamp(gy+yy,0,gh-1);acc+=relief[y*gw+x];c++
+      }
+      next[gy*gw+gx]=acc/c;
+    }
+    relief=next;
+  }
+  let vv=0;for(const v of relief)vv+=(v-mean)*(v-mean);const sd=Math.sqrt(vv/relief.length)||.05;
+  for(let i=0;i<relief.length;i++)relief[i]=clamp((relief[i]-mean)/(sd*2.8),-1,1);
+
+  const left=[],right=[],step=Math.max(2,Math.round(bh/36));
+  const rowLeft=new Array(h).fill(null),rowRight=new Array(h).fill(null),rowCenter=new Array(h).fill(null),rowWidth=new Array(h).fill(null);
+  for(let y=minY;y<=maxY;y++){
+    let l=-1,r=-1;
+    for(let x=minX;x<=maxX;x++) if(mask[y*w+x]){ l=x; break; }
+    for(let x=maxX;x>=minX;x--) if(mask[y*w+x]){ r=x; break; }
+    if(l>=0&&r>=0){
+      rowLeft[y]=l; rowRight[y]=r; rowCenter[y]=(l+r)/2; rowWidth[y]=Math.max(1,r-l);
+      if(((y-minY)%step)===0){ left.push([l,y]); right.push([r,y]); }
+    }
+  }
+  return {side,sw,sh,w,h,scaleX:sw/w,scaleY:sh/h,bbox:{minX,minY,maxX,maxY,bw,bh},contour:[...left,...right.reverse()],rowLeft,rowRight,rowCenter,rowWidth,relief:{w:gw,h:gh,data:Array.from(relief)},confidence};
+}
+
+function sampleRelief(a,x,y){
+  const m=a.relief;if(!m)return 0;x=clamp(x,0,1)*(m.w-1);y=clamp(y,0,1)*(m.h-1);
+  const x0=Math.floor(x),y0=Math.floor(y),x1=Math.min(m.w-1,x0+1),y1=Math.min(m.h-1,y0+1),tx=x-x0,ty=y-y0,d=m.data;
+  const p0=d[y0*m.w+x0]*(1-tx)+d[y0*m.w+x1]*tx,p1=d[y1*m.w+x0]*(1-tx)+d[y1*m.w+x1]*tx;return p0*(1-ty)+p1*ty;
+}
+function g(x,y,cx,cy,sx,sy){const dx=(x-cx)/sx,dy=(y-cy)/sy;return Math.exp(-(dx*dx+dy*dy)/2)}
+function rowAt(a,ny){
+  const yPix=clamp(Math.round(ny*(a.h-1)),0,a.h-1);
+  let y0=yPix,y1=yPix;
+  while(y0>=0 && a.rowLeft[y0]==null) y0--;
+  while(y1<a.h && a.rowLeft[y1]==null) y1++;
+  if(y0<0) y0=y1;
+  if(y1>=a.h) y1=y0;
+  const t=(y0===y1)?0:((yPix-y0)/(y1-y0));
+  const mix=(arr)=>arr[y0]*(1-t)+arr[y1]*t;
+  return {left:mix(a.rowLeft),right:mix(a.rowRight),center:mix(a.rowCenter),width:mix(a.rowWidth)};
+}
+
+const PRECISE_MASKS={
+  front:{
+    outer:[
+      [0.365,0.073],[0.310,0.082],[0.245,0.108],[0.184,0.147],[0.126,0.203],[0.088,0.260],[0.055,0.354],[0.025,0.500],
+      [0.021,0.557],[0.185,0.585],[0.214,0.540],[0.237,0.475],[0.250,0.405],[0.263,0.332],[0.281,0.268],[0.309,0.211],
+      [0.357,0.145],[0.425,0.111],[0.500,0.100],[0.575,0.111],[0.643,0.145],[0.691,0.211],[0.719,0.268],[0.737,0.332],
+      [0.750,0.405],[0.763,0.475],[0.786,0.540],[0.815,0.585],[0.979,0.557],[0.975,0.500],[0.945,0.354],[0.912,0.260],
+      [0.874,0.203],[0.816,0.147],[0.755,0.108],[0.690,0.082],[0.635,0.073],[0.675,0.580],[0.699,0.640],[0.716,0.705],
+      [0.730,0.775],[0.738,0.845],[0.739,0.900],[0.729,0.939],[0.670,0.956],[0.500,0.965],[0.330,0.956],[0.271,0.939],
+      [0.261,0.900],[0.262,0.845],[0.270,0.775],[0.284,0.705],[0.301,0.640],[0.325,0.580]
+    ],
+    axLeft:[[0.197,0.389],[0.223,0.360],[0.248,0.371],[0.246,0.421],[0.228,0.451],[0.205,0.438]],
+    axRight:[[0.803,0.389],[0.777,0.360],[0.752,0.371],[0.754,0.421],[0.772,0.451],[0.795,0.438]],
+    neck:{cx:0.500,cy:0.106,rx:0.104,ry:0.033}
+  },
+  back:{
+    outer:[
+      [0.360,0.070],[0.285,0.080],[0.215,0.105],[0.153,0.145],[0.096,0.201],[0.063,0.257],[0.037,0.349],[0.020,0.497],
+      [0.020,0.554],[0.180,0.586],[0.210,0.540],[0.234,0.474],[0.247,0.404],[0.260,0.331],[0.277,0.267],[0.305,0.208],
+      [0.350,0.141],[0.418,0.102],[0.500,0.090],[0.582,0.102],[0.650,0.141],[0.695,0.208],[0.723,0.26²È="25É… ¡¼ôù ¹…¹Ù…Ì¹É•µ½Ù”¡¼¤¤ì(€€€½¹ÍÐµÜõ ¹…¹Ù…Ì¹•Ñ]¥‘Ñ  ¤¨¸äÀ±µ õ ¹…¹Ù…Ì¹•Ñ!•¥¡Ð ¤¨¸äÀ±ÍŒõ5…Ñ ¹µ¥¸¡µÜ½¥µœ¹Ý¥‘Ñ ±µ ½¥µœ¹¡•¥¡Ð°Ä¤ì(€€€¥µœ¹Í•Ð¡í±•™Ðé ¹…¹Ù…Ì¹•Ñ]¥‘Ñ  ¤¼È±Ñ½Àé ¹…¹Ù…Ì¹•Ñ!•¥¡Ð ¤¼È±½É¥¥¹`è•¹Ñ•Èœ±½É¥¥¹dè•¹Ñ•Èœ±Í…±•`éÍŒ±Í…±•déÍŒ±±½‰…±½µÁ½Í¥Ñ•=Á•É…Ñ¥½¸èÍ½ÕÉ”µ½Ù•Èô¤ì(€€€ ¹…‘‘5•Ñ„¡¥µœ°µ½­ÕÀœ±Í¥‘”ôôô‰…¬œü5½­ÕÀ!-$ÑÉ…Í•É¼œè5½­ÕÀ!-$™É½¹Ñ…°œ¤ì(€€€ ¹…¹Ù…Ì¹¥¹Í•ÉÑÐ¡¥µœ°À±™…±Í”¤í ¹…¹Ù…Ì¹Í•ÑÑ¥Ù•=‰©•Ð¡¥µœ¤í ¹Í¹…ÁÍ¡½Ð ¤í ¹É•™É•Í  ¤í ¹™¥Ð ¤ì(€€€½¹ÍÐ±…‰•°õÍ¥‘”ôôô‰…¬œü•ÍÁ…±‘„œè™É•¹Ñ”œì(€€€¥˜ …Í¥±•¹Ð¤ ¹Ñ½…ÍÐ …µ¥Í•Ñ„€œ­±…‰•°¬œ…É…‘„œ¤ì(€€€½¹ÍÐÑ…œõ ¸ œÍÕÉ™…•M¥‘•Q…œœ¤ì¥˜¡Ñ…œ¤Ñ…œ¹Ñ•áÑ½¹Ñ•¹Ð€ôÍ¥‘”ôôô‰…¬œ€ü€MA1œ€è€I9Qœì(€€€¥˜¡…ÕÑ½¹…±åé”¤Í•ÑQ¥µ•½ÕÐ  ¤ôù ¹ÍÕÉ™…•¹…±åé”¡íÍ¥±•¹Ð±Í¥‘•ô¤°€ØÀ¤ì(€ô±íÉ½ÍÍ=É¥¥¸è…¹½¹åµ½ÕÌô¤ì)ôì() ¹ÍÕÉ™…•¹…±åé”ô¡½ÁÑÌõíô¤ôùì(€½¹ÍÐíÍ¥±•¹Ðõ™…±Í”±Í¥‘”õL¹Í¥‘•ñð™É½¹Ðôõ½ÁÑÌì(€½¹ÍÐµ½¬õ•Ñ5½­ÕÀ ¤í¥˜ …µ½¬¥ì¥˜ …Í¥±•¹Ð¤ ¹Ñ½…ÍÐ %µÁ½ÉÑ„±„…µ¥Í•Ñ„œ¤ìÉ•ÑÕÉ¸™…±Í”ìô(€ÑÉåì(€€€L¹…¹…±åÍ¥Ìõ…¹…±åé•M¡¥ÉÐ¡µ½¬±Í¥‘”¤íL¹µ½­ÕÁ%õµ½¬¹¡…­¥%íL¹Í¥‘”õÍ¥‘”ì(€€€½¹ÍÐÁÐõ5…Ñ ¹É½Õ¹¡L¹…¹…±åÍ¥Ì¹½¹™¥‘•¹”¨ÄÀÀ¤ì(€€€½¹ÍÐ±…‰•°õÍ¥‘”ôôô‰…¬œü•ÍÁ…±‘„œè™É•¹Ñ”œì(€€€ ¸ œÍÕÉ™…•I•ÍÕ±Ðœ¤¹¥¹¹•É!Q50õ€ñÍÑÉ½¹œù…µ¥Í•Ñ„€‘í±…‰•±ôÁÉ•Á…É…‘„ð½ÍÑÉ½¹œøñ‰ÈøñÍÁ…¸ù7…Í…É„µ…¹Õ…°ÁÉ•¥Í„‘”€‘í±…‰•±ôƒ
+Ü½¹™¥…¹é„€‘íÁÑô”¸ð½ÍÁ…¸ù€ì(€€€ ¸ œÍÕÉ™…•Ñ¥Ù…Ñ”œ¤¹‘¥Í…‰±•õ™…±Í”í ¸ œÍÕÉ™…•É¥œ¤¹‘¥Í…‰±•õ™…±Í”ì(€€€½¹ÍÐÑ…œõ ¸ œÍÕÉ™…•M¥‘•Q…œœ¤ì¥˜¡Ñ…œ¤Ñ…œ¹Ñ•áÑ½¹Ñ•¹Ð€ôÍ¥‘”ôôô‰…¬œ€ü€MA1œ€è€I9Qœì(€€€¥˜ …Í¥±•¹Ð¤ ¹Ñ½…ÍÐ MÕÁ•É™¥¥”‘”…µ¥Í•Ñ„É•…‘„œ¤ì(€€€É•ÑÕÉ¸ÑÉÕ”ì(€õ…Ñ ¡”¥ì(€€€ ¸ œÍÕÉ™…•I•ÍÕ±Ðœ¤¹¥¹¹•É!Q50ôœñÍÑÉ½¹œù9¼‘•Ñ•Ñ…‘„ð½ÍÑÉ½¹œøñ‰ÈøñÍÁ…¸ùUÍ„•°µ½­ÕÀ™É½¹Ñ…°¼ÑÉ…Í•É¼¥¹‘¥…‘¼¸ð½ÍÁ…¸øœì(€€€¥˜ …Í¥±•¹Ð¤ ¹Ñ½…ÍÐ¡”¹µ•ÍÍ…•ñð9¼ÁÕ‘”…¹…±¥é…É±„œ¤ì(€€€É•ÑÕÉ¸™…±Í”ì(€ô)ôì() ¹ÍÕÉ™…•MÝ¥Ñ¡M¥‘”ô¡Í¥‘”ô™É½¹Ðœ¤ôùì(€L¹Í¥‘”õÍ¥‘”ì(€±•…ÉÉ¥ ¤ì(€¥˜¡L¹}µ…Í­AÉ•Ù¥•Ü¥ì ¹…¹Ù…Ì¹É•µ½Ù”¡L¹}µ…Í­AÉ•Ù¥•Ü¤ìL¹}µ…Í­AÉ•Ù¥•Üõ¹Õ±°ìô(€ ¹ÍÕÉ™…•1½…‘I•™•É•¹”¡íÍ¥±•¹Ðé™…±Í”±…ÕÑ½¹…±åé”éÑÉÕ”±Í¥‘•ô¤ì)ôì() ¹ÍÕÉ™…•ÕÑ½	½½ÑÍÑÉ…Àô ¤ôùì(€¥˜¡L¹}‰½½ÑÍÑÉ…ÁÁ•¤É•ÑÕÉ¸ì(€½¹ÍÐ¡…Í5½­ÕÀ€ô ¹…¹Ù…Ì¹•Ñ=‰©•ÑÌ ¤¹Í½µ”¡¼ôù¼¹¡…­¥-¥¹ôôôµ½­ÕÀœ¤ì(€¥˜¡¡…Í5½­ÕÀ¤É•ÑÕÉ¸ì(€L¹}‰½½ÑÍÑÉ…ÁÁ•€ôÑÉÕ”ì(€ ¹ÍÕÉ™…•1½…‘I•™•É•¹”¡íÍ¥±•¹ÐéÑÉÕ”°…ÕÑ½¹…±åé”éÑÉÕ”°Í¥‘”è™É½¹Ðô¤ì)ôì() ¹ÍÕÉ™…•Ñ¥Ù…Ñ”ô ¤ôùì(€¥˜ …L¹…¹…±åÍ¥Ì¥í ¹Ñ½…ÍÐ AÉ•Á…É„ÁÉ¥µ•É¼±„ÍÕÁ•É™¥¥”œ¤íÉ•ÑÕÉ¹ô(€½¹ÍÐõ•Ñ•Í¥¸ ¤í¥˜ …¥í ¹Ñ½…ÍÐ M•±•¥½¹„•°‘¥Í—Å¼ÅÕ”ÅÕ¥•É•ÌÁÉ½å•Ñ…Èœ¤íÉ•ÑÕÉ¹ô(€¥˜¡¹}ÍÕÉ™…•¹…‰±•¥íÉ•¹‘•ÉAÉ½©•Ñ¥½¸¡°™¥¹…°œ¤í ¸ œÍ¥‘•Á…¹•°œ¤ü¹±…ÍÍ1¥ÍÐ¹É•µ½Ù” ½Á•¸œ¤íÉ•ÑÕÉ¹ô(€ ¹Í¹…ÁÍ¡½Ð ¤íÉ•…Ñ•AÉ½©•Ñ¥½¸¡¤íL¹½¹ÑÉ½±±•ÉÌ¹…‘¡¤íÉ•¹‘•ÉAÉ½©•Ñ¥½¸¡°™¥¹…°œ¤í ¸ œÍ¥‘•Á…¹•°œ¤ü¹±…ÍÍ1¥ÍÐ¹É•µ½Ù” ½Á•¸œ¤í ¹É•™É•Í  ¤í ¹Ñ½…ÍÐ 5½­ÕÀ…Ñ¥Ù¼ƒ
+ÜµÕ•Ù”•°½¹ÑÉ½°œ¤ì)ôì) ¹ÍÕÉ™…•¥Í…‰±”ô ¤ôùì(€½¹ÍÐ¼õ ¹…Ñ¥Ù” ¤í¥˜ …¼ü¹}ÍÕÉ™…•¹…‰±•¥í ¹Ñ½…ÍÐ M•±•¥½¹„•°½¹ÑÉ½°‘•°‘¥Í—Å¼œ¤íÉ•ÑÕÉ¹ô(€½¹ÍÐÀõ¼¹}ÍÕÉ™…•AÉ½©•Ñ¥½¹=‰¨í¥˜¡À¥ ¹…¹Ù…Ì¹É•µ½Ù”¡À¤í¼¹}ÍÕÉ™…•¹…‰±•õ™…±Í”í¼¹½Á…¥Ñäõ¼¹}ÍÕÉ™…•=É¥¥¹…±=Á…¥ÑäüüÄí¼¹±½‰…±½µÁ½Í¥Ñ•=Á•É…Ñ¥½¸õ¼¹}ÍÕÉ™…•=É¥¥¹…±	±•¹‘ñðÍ½ÕÉ”µ½Ù•Èœí¼¹•á±Õ‘•É½µáÁ½ÉÐõ™…±Í”í¼¹¡…­¥9…µ”ô¥Í—Å¼œí¼¹}ÍÕÉ™…•AÉ½©•Ñ¥½¹=‰¨õ¹Õ±°íL¹½¹ÑÉ½±±•ÉÌ¹‘•±•Ñ”¡¼¤í ¹Í¹…ÁÍ¡½Ð ¤í ¹É•™É•Í  ¤í ¹Ñ½…ÍÐ AÉ½å•§Í¸‘•Í…Ñ¥Ù…‘„œ¤ì)ôì()™Õ¹Ñ¥½¸±•…ÉÉ¥ ¥íL¹É¥¹™½É… ¡¼ôù ¹…¹Ù…Ì¹É•µ½Ù”¡¼¤¤íL¹É¥õmuô) ¹ÍÕÉ™…•Q½±•É¥ô ¤ôùì(€¥˜¡L¹É¥¹±•¹Ñ ¥í±•…ÉÉ¥ ¤í ¹É•™É•Í  ¤íÉ•ÑÕÉ¹ô(€½¹ÍÐµ½¬õ•Ñ5½­ÕÀ ¤±„õL¹…¹…±åÍ¥Ìí¥˜ …µ½­ñð…„¥í ¹Ñ½…ÍÐ AÉ•Á…É„ÁÉ¥µ•É¼±„ÍÕÁ•É™¥¥”œ¤íÉ•ÑÕÉ¹ô(€½¹ÍÐ…‘‘1¥¹”ô¡ÁÑÌ¤ôùí½¹ÍÐÁ…Ñ ô4€œ­ÁÑÌ¹µ…À ¡À±¤¤ôø¡¤ü0€œèœœ¤­À¹à¹Ñ½¥á• Ä¤¬œ€œ­À¹ä¹Ñ½¥á• Ä¤¤¹©½¥¸ œ€œ¤í½¹ÍÐ¼õ¹•Ü™…‰É¥Œ¹A…Ñ ¡Á…Ñ ±í™¥±°èœœ±ÍÑÉ½­”èœŒÀÁ•…™˜œ±ÍÑÉ½­•]¥‘Ñ èÈ±½Á…¥Ñäè¸ØÔ±Í•±•Ñ…‰±”é™…±Í”±•Ù•¹Ñ•é™…±Í”±•á±Õ‘•É½µáÁ½ÉÐéÑÉÕ•ô¤í¼¹¡…­¥-¥¹ôÍÕÉ™…”µÉ¥œí ¹…¹Ù…Ì¹…‘¡¼¤íL¹É¥¹ÁÕÍ ¡¼¥ôì(€™½È¡±•Ðàô¸ÀØíàðô¸äÐíà¬ô¸Àä¥í½¹ÍÐÁÑÌõmtí™½È¡±•Ðäô¸Ààíäðô¸äÐíä¬ô¸ÀÈÈ¥í½¹ÍÐmÍà±ÍåtõÍÕÉ™…•5…À¡„±à±ä°¸Ôà¤íÁÑÌ¹ÁÕÍ ¡…¹Ù…ÍÉ½µ%µ…•9½É´¡µ½¬±Íà±Íä¤¥õ…‘‘1¥¹”¡ÁÑÌ¥ô(€™½È¡±•Ðäô¸ÄÀíäðô¸äÈíä¬ô¸ÀàÔ¥í½¹ÍÐÁÑÌõmtí™½È¡±•Ðàô¸ÀÌíàðô¸äÜíà¬ô¸ÀÈÈ¥í½¹ÍÐmÍà±ÍåtõÍÕÉ™…•5…À¡„±à±ä°¸Ôà¤íÁÑÌ¹ÁÕÍ ¡…¹Ù…ÍÉ½µ%µ…•9½É´¡µ½¬±Íà±Íä¤¥õ…‘‘1¥¹”¡ÁÑÌ¥ô(€ ¹É•™É•Í  ¤í ¹Ñ½…ÍÐ 5…±±„‘”ÍÕÁ•É™¥¥”Ù¥Í¥‰±”œ¤ì)ôì() ¹ÍÕÉ™…•5…Í­AÉ•Ù¥•Üô ¤ôùì(€½¹ÍÐµ½¬õ•Ñ5½­ÕÀ ¤±„õL¹…¹…±åÍ¥Ìí¥˜ …µ½­ñð…„¥í ¹Ñ½…ÍÐ Í…¹•„ÁÉ¥µ•É¼±„…µ¥Í•Ñ„œ¤íÉ•ÑÕÉ¹ô(€¥˜¡L¹}µ…Í­AÉ•Ù¥•Ü¥í ¹…¹Ù…Ì¹É•µ½Ù”¡L¹}µ…Í­AÉ•Ù¥•Ü¤íL¹}µ…Í­AÉ•Ù¥•Üõ¹Õ±°í ¹É•™É•Í  ¤í ¹Ñ½…ÍÐ 7…Í…É„½Õ±Ñ„œ¤íÉ•ÑÕÉ¹ô(€½¹ÍÐµ…Í¬õ‰Õ¥±‘5…Í­…¹Ù…Ì¡„¤ì(€™…‰É¥Œ¹%µ…”¹™É½µUI0¡µ…Í¬¹Ñ½…Ñ…UI0 ¥µ…”½Á¹œœ¤±¥µœôùì(€€€¥µœ¹Í•Ð¡í±•™Ðéµ½¬¹±•™Ð±Ñ½Àéµ½¬¹Ñ½À±½É¥¥¹`éµ½¬¹½É¥¥¹`±½É¥¥¹déµ½¬¹½É¥¥¹d±…¹±”éµ½¬¹…¹±”±Í…±•`é5…Ñ ¹…‰Ì¡µ½¬¹Í…±•añðÄ¤±Í…±•dé5…Ñ ¹…‰Ì¡µ½¬¹Í…±•eñðÄ¤±½Á…¥Ñäè¸Èà±Í•±•Ñ…‰±”é™…±Í”±•Ù•¹Ñ•é™…±Í”±•á±Õ‘•É½µáÁ½ÉÐéÑÉÕ•ô¤ì(€€€ ¹…¹Ù…Ì¹…‘¡¥µœ¤ìL¹}µ…Í­AÉ•Ù¥•Üõ¥µœì ¹É•™É•Í  ¤ì ¹Ñ½…ÍÐ 7…Í…É„Ù•Ñ½É¥…°Ù¥Í¥‰±”œ¤ì(€ô±íÉ½ÍÍ=É¥¥¸è…¹½¹åµ½ÕÌô¤ì)ôì() ¹¥¹ÍÑ…±±MÕÉ™…•Ù•¹ÑÌô ¤ôùì(€¥˜¡ ¹}ÍÕÉ™…•Ù•¹ÑÌ¥É•ÑÕÉ¸í ¹}ÍÕÉ™…•Ù•¹ÑÌõÑÉÕ”í½¹ÍÐŒõ ¹…¹Ù…Ìì(€l½‰©•Ðéµ½Ù¥¹œœ°½‰©•ÐéÍ…±¥¹œœ°½‰©•ÐéÉ½Ñ…Ñ¥¹œœ°½‰©•ÐéÍ­•Ý¥¹œt¹™½É… ¡•ØôùŒ¹½¸¡•Ø±”ôùÍ¡•‘Õ±”¡”¹Ñ…É•Ð°±¥Ù”œ¤¤¤ì(€Œ¹½¸ ½‰©•Ðéµ½‘¥™¥•œ±”ôùÍ¡•‘Õ±”¡”¹Ñ…É•Ð°™¥¹…°œ¤¤ì)ôì() ¹¥¹ÍÑ…±±Mµ…ÉÑU$ô ¤ôùì(€½¹ÍÐÁ…”õ ¸ œµ½­ÕÁA…”œ¤í¥˜ …Á…•ññ ¸ œÍÕÉ™…•…Éœ¤¥É•ÑÕÉ¸ì(€½¹ÍÐ…Éõ‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‘¥Øœ¤í…É¹±…ÍÍ9…µ”ô…Éœí…É¹¥ôÍÕÉ™…•…Éœí…É¹¥¹¹•É!Q50õ€(€€€€ñ Ìù5½­ÕÀ€Í‘”ÍÕÁ•É™¥¥”€ñÍÁ…¸¥ô‰ÍÕÉ™…•M¥‘•Q…œˆÍÑå±”ô‰™½¹ÐµÍ¥é”èÄÅÁàíÁ…‘‘¥¹œèÍÁà€ÙÁàí‰½É‘•ÈèÅÁàÍ½±¥€ŒÌÀÌØÐÄí‰½É‘•ÈµÉ…‘¥ÕÌèääåÁàíµ…É¥¸µ±•™ÐèÙÁàˆùI9Qð½ÍÁ…¸øð½ Ìø(€€€€ñÀ±…ÍÌô‰¡¥¹Ðˆù…±¥‰É…‘¼ƒé¹¥…µ•¹Ñ”Á…É„•ÍÑ„…µ¥Í•Ñ„!-$¸UÍ„·…Í…É…Ìµ…¹Õ…±•ÌÁÉ•¥Í…ÌÁ…É„™É•¹Ñ”ä•ÍÁ…±‘„°½¸Õ•±±¼ä…á¥±…Ì…©ÕÍÑ…‘½Ì•ÍÁ•µ™¥…µ•¹Ñ”„•ÍÑ„…µ¥Í•Ñ„¸ð½Àø(€€€€ñ‘¥Ø±…ÍÌô‰É¥Èˆøñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•É½¹ÑI•˜ˆù…É…È™É•¹Ñ”ð½‰ÕÑÑ½¸øñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•	…­I•˜ˆù…É…È•ÍÁ…±‘„ð½‰ÕÑÑ½¸øð½‘¥Øø(€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰Ý¥‘”ÁÉ¥µ…Éäˆ¥ô‰ÍÕÉ™…•¹…±åé”ˆÍÑå±”ô‰µ…É¥¸µÑ½ÀèáÁàˆøÄƒ
+ÜÍ…¹•…È±…‘¼…ÑÕ…°ð½‰ÕÑÑ½¸ø(€€€€ñ‘¥Ø¥ô‰ÍÕÉ™…•I•ÍÕ±ÐˆÍÑå±”ô‰µ…É¥¸èÄÁÁà€ÀíÁ…‘‘¥¹œèÄÁÁàí‰½É‘•ÈèÅÁàÍ½±¥€ŒÌÀÌØÐÄí‰½É‘•ÈµÉ…‘¥ÕÌèáÁàí™½¹ÐµÍ¥é”èÄÉÁàí½±½ÈèŒáÁäˆùM¥¸ÁÉ•Á…É…Èð½‘¥Øø(€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰Ý¥‘”ÁÉ¥µ…Éäˆ¥ô‰ÍÕÉ™…•Ñ¥Ù…Ñ”ˆ‘¥Í…‰±•øÈƒ
+ÜÑ¥Ù…ÈÁÉ½å•§Í¸ð½‰ÕÑÑ½¸ø(€€€€ñ‘¥Ø±…ÍÌô‰É¥ÈˆÍÑå±”ô‰µ…É¥¸µÑ½ÀèáÁàˆøñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•É¥ˆ‘¥Í…‰±•ùY•Èµ…±±„ð½‰ÕÑÑ½¸øñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•¥Í…‰±”ˆù•Í…Ñ¥Ù…Èð½‰ÕÑÑ½¸øð½‘¥Øøñ‰ÕÑÑ½¸±…ÍÌô‰Ý¥‘”ˆ¥ô‰ÍÕÉ™…•5…Í­AÉ•Ù¥•ÜˆÍÑå±”ô‰µ…É¥¸µÑ½ÀèáÁàˆùY•È·…Í…É„Ù•Ñ½É¥…°ð½‰ÕÑÑ½¸ø(€€€€ñ±…‰•°ùÕÉÙ…ÑÕÉ„€ñÍÁ…¸¥ô‰ÍÕÉ™…•MÑÉ•¹Ñ¡Y…±Õ”ˆøÐà”ð½ÍÁ…¸øñ¥¹ÁÕÐ¥ô‰ÍÕÉ™…•MÑÉ•¹Ñ ˆÑåÁ”ô‰É…¹”ˆµ¥¸ôˆÀˆµ…àôˆÄÀÀˆÙ…±Õ”ôˆÐàˆøð½±…‰•°ø(€€€€ñÀ±…ÍÌô‰¡¥¹Ðˆù•ÍÁ×¥Ì‘”…Ñ¥Ù…È°µÕ•Ù”½•Í…±„½É½Ñ„•°µ…É¼‘•°‘¥Í—Å¼‘¥É•Ñ…µ•¹Ñ”Í½‰É”±„…µ¥Í•Ñ„¸AÕ•‘•Ì…±Ñ•É¹…È•¹ÑÉ”™É•¹Ñ”ä•ÍÁ…±‘„¸ð½Àù€ì(€Á…”¹ÁÉ•Á•¹¡…É¤ì(€ ¸ œÍÕÉ™…•É½¹ÑI•˜œ¤¹½¹±¥¬ô ¤ôù ¹ÍÕÉ™…•MÝ¥Ñ¡M¥‘” ™É½¹Ðœ¤í ¸ œÍÕÉ™…•	…­I•˜œ¤¹½¹±¥¬ô ¤ôù ¹ÍÕÉ™…•MÝ¥Ñ¡M¥‘” ‰…¬œ¤í ¸ œÍÕÉ™…•¹…±åé”œ¤¹½¹±¥¬ô ¤ôù ¹ÍÕÉ™…•¹…±åé”¡íÍ¥‘”éL¹Í¥‘•ô¤í ¸ œÍÕÉ™…•Ñ¥Ù…Ñ”œ¤¹½¹±¥¬õ ¹ÍÕÉ™…•Ñ¥Ù…Ñ”í ¸ œÍÕÉ™…•¥Í…‰±”œ¤¹½¹±¥¬õ ¹ÍÕÉ™…•¥Í…‰±”í ¸ œÍÕÉ™…•É¥œ¤¹½¹±¥¬õ ¹ÍÕÉ™…•Q½±•É¥í ¸ œÍÕÉ™…•5…Í­AÉ•Ù¥•Üœ¤¹½¹±¥¬õ ¹ÍÕÉ™…•5…Í­AÉ•Ù¥•Üì(€ ¸ œÍÕÉ™…•MÑÉ•¹Ñ œ¤¹½¹¥¹ÁÕÐõ”ôùí ¸ œÍÕÉ™…•MÑÉ•¹Ñ¡Y…±Õ”œ¤¹Ñ•áÑ½¹Ñ•¹Ðõ”¹Ñ…É•Ð¹Ù…±Õ”¬œ”œí½¹ÍÐ¼õ ¹…Ñ¥Ù” ¤í¥˜¡¼ü¹}ÍÕÉ™…•¹…‰±•¥í¼¹}ÍÕÉ™…•MÑÉ•¹Ñ ô­”¹Ñ…É•Ð¹Ù…±Õ”¼ÄÀÀíÍ¡•‘Õ±”¡¼°™¥¹…°œ¥õôì(€ ¹¥¹ÍÑ…±±MÕÉ™…•Ù•¹ÑÌ ¤ì(€Í•ÑQ¥µ•½ÕÐ  ¤ôù ¹ÍÕÉ™…•ÕÑ½	½½ÑÍÑÉ…À˜™ ¹ÍÕÉ™…•ÕÑ½	½½ÑÍÑÉ…À ¤°€àÀ¤ì)ôì)ô¤ ¤ì(
