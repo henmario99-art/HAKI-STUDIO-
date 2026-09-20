@@ -207,6 +207,7 @@
   };
 
   window.HAKI.init();
+  if(window.HAKI.installSmartUI) window.HAKI.installSmartUI();
 
   // Always-visible mobile Undo / Redo controls.
   if(!document.getElementById('mobileHistory')){
