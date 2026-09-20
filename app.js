@@ -11,7 +11,7 @@
     throw new Error('Fabric.js no cargó');
   }
 
-  for(const file of ['./core.js','./editor.js','./warp.js','./storage.js','./ui.js','./smart.js']){
+  for(const file of ['./core.js','./editor.js','./warp.js','./storage.js','./ui.js','./smart.js?v=2.1.1']){
     await load(file);
   }
 
@@ -196,7 +196,7 @@
     panel.prepend(back);
   }
 
-  document.documentElement.dataset.hakiVersion='doufu-1.6-calibrated-field';
+  document.documentElement.dataset.hakiVersion='vercel-2.1.1-precise-masks';
 })().catch(err=>{
   console.error(err);
   const b=document.getElementById('boot');

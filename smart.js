@@ -141,8 +141,327 @@ const PRECISE_MASKS={
     outer:[
       [0.360,0.070],[0.285,0.080],[0.215,0.105],[0.153,0.145],[0.096,0.201],[0.063,0.257],[0.037,0.349],[0.020,0.497],
       [0.020,0.554],[0.180,0.586],[0.210,0.540],[0.234,0.474],[0.247,0.404],[0.260,0.331],[0.277,0.267],[0.305,0.208],
-      [0.350,0.141],[0.418,0.102],[0.500,0.090],[0.582,0.102],[0.650,0.141],[0.695,0.208],[0.723,0.26²È="25É… ¡¼ôù ¹…¹Ù…Ì¹É•µ½Ù”¡¼¤¤ì(€€€½¹ÍĞµÜõ ¹…¹Ù…Ì¹•Ñ]¥‘Ñ  ¤¨¸äÀ±µ õ ¹…¹Ù…Ì¹•Ñ!•¥¡Ğ ¤¨¸äÀ±ÍŒõ5…Ñ ¹µ¥¸¡µÜ½¥µœ¹İ¥‘Ñ ±µ ½¥µœ¹¡•¥¡Ğ°Ä¤ì(€€€¥µœ¹Í•Ğ¡í±•™Ğé ¹…¹Ù…Ì¹•Ñ]¥‘Ñ  ¤¼È±Ñ½Àé ¹…¹Ù…Ì¹•Ñ!•¥¡Ğ ¤¼È±½É¥¥¹`è•¹Ñ•Èœ±½É¥¥¹dè•¹Ñ•Èœ±Í…±•`éÍŒ±Í…±•déÍŒ±±½‰…±½µÁ½Í¥Ñ•=Á•É…Ñ¥½¸èÍ½ÕÉ”µ½Ù•Èô¤ì(€€€ ¹…‘‘5•Ñ„¡¥µœ°µ½­ÕÀœ±Í¥‘”ôôô‰…¬œü5½­ÕÀ!-$ÑÉ…Í•É¼œè5½­ÕÀ!-$™É½¹Ñ…°œ¤ì(€€€ ¹…¹Ù…Ì¹¥¹Í•ÉÑĞ¡¥µœ°À±™…±Í”¤í ¹…¹Ù…Ì¹Í•ÑÑ¥Ù•=‰©•Ğ¡¥µœ¤í ¹Í¹…ÁÍ¡½Ğ ¤í ¹É•™É•Í  ¤í ¹™¥Ğ ¤ì(€€€½¹ÍĞ±…‰•°õÍ¥‘”ôôô‰…¬œü•ÍÁ…±‘„œè™É•¹Ñ”œì(€€€¥˜ …Í¥±•¹Ğ¤ ¹Ñ½…ÍĞ …µ¥Í•Ñ„€œ­±…‰•°¬œ…É…‘„œ¤ì(€€€½¹ÍĞÑ…œõ ¸ œÍÕÉ™…•M¥‘•Q…œœ¤ì¥˜¡Ñ…œ¤Ñ…œ¹Ñ•áÑ½¹Ñ•¹Ğ€ôÍ¥‘”ôôô‰…¬œ€ü€MA1œ€è€I9Qœì(€€€¥˜¡…ÕÑ½¹…±åé”¤Í•ÑQ¥µ•½ÕĞ  ¤ôù ¹ÍÕÉ™…•¹…±åé”¡íÍ¥±•¹Ğ±Í¥‘•ô¤°€ØÀ¤ì(€ô±íÉ½ÍÍ=É¥¥¸è…¹½¹åµ½ÕÌô¤ì)ôì() ¹ÍÕÉ™…•¹…±åé”ô¡½ÁÑÌõíô¤ôùì(€½¹ÍĞíÍ¥±•¹Ğõ™…±Í”±Í¥‘”õL¹Í¥‘•ñğ™É½¹Ğôõ½ÁÑÌì(€½¹ÍĞµ½¬õ•Ñ5½­ÕÀ ¤í¥˜ …µ½¬¥ì¥˜ …Í¥±•¹Ğ¤ ¹Ñ½…ÍĞ %µÁ½ÉÑ„±„…µ¥Í•Ñ„œ¤ìÉ•ÑÕÉ¸™…±Í”ìô(€ÑÉåì(€€€L¹…¹…±åÍ¥Ìõ…¹…±åé•M¡¥ÉĞ¡µ½¬±Í¥‘”¤íL¹µ½­ÕÁ%õµ½¬¹¡…­¥%íL¹Í¥‘”õÍ¥‘”ì(€€€½¹ÍĞÁĞõ5…Ñ ¹É½Õ¹¡L¹…¹…±åÍ¥Ì¹½¹™¥‘•¹”¨ÄÀÀ¤ì(€€€½¹ÍĞ±…‰•°õÍ¥‘”ôôô‰…¬œü•ÍÁ…±‘„œè™É•¹Ñ”œì(€€€ ¸ œÍÕÉ™…•I•ÍÕ±Ğœ¤¹¥¹¹•É!Q50õ€ñÍÑÉ½¹œù…µ¥Í•Ñ„€‘í±…‰•±ôÁÉ•Á…É…‘„ğ½ÍÑÉ½¹œøñ‰ÈøñÍÁ…¸ù7…Í…É„µ…¹Õ…°ÁÉ•¥Í„‘”€‘í±…‰•±ôƒ
-Ü½¹™¥…¹é„€‘íÁÑô”¸ğ½ÍÁ…¸ù€ì(€€€ ¸ œÍÕÉ™…•Ñ¥Ù…Ñ”œ¤¹‘¥Í…‰±•õ™…±Í”í ¸ œÍÕÉ™…•É¥œ¤¹‘¥Í…‰±•õ™…±Í”ì(€€€½¹ÍĞÑ…œõ ¸ œÍÕÉ™…•M¥‘•Q…œœ¤ì¥˜¡Ñ…œ¤Ñ…œ¹Ñ•áÑ½¹Ñ•¹Ğ€ôÍ¥‘”ôôô‰…¬œ€ü€MA1œ€è€I9Qœì(€€€¥˜ …Í¥±•¹Ğ¤ ¹Ñ½…ÍĞ MÕÁ•É™¥¥”‘”…µ¥Í•Ñ„É•…‘„œ¤ì(€€€É•ÑÕÉ¸ÑÉÕ”ì(€õ…Ñ ¡”¥ì(€€€ ¸ œÍÕÉ™…•I•ÍÕ±Ğœ¤¹¥¹¹•É!Q50ôœñÍÑÉ½¹œù9¼‘•Ñ•Ñ…‘„ğ½ÍÑÉ½¹œøñ‰ÈøñÍÁ…¸ùUÍ„•°µ½­ÕÀ™É½¹Ñ…°¼ÑÉ…Í•É¼¥¹‘¥…‘¼¸ğ½ÍÁ…¸øœì(€€€¥˜ …Í¥±•¹Ğ¤ ¹Ñ½…ÍĞ¡”¹µ•ÍÍ…•ñğ9¼ÁÕ‘”…¹…±¥é…É±„œ¤ì(€€€É•ÑÕÉ¸™…±Í”ì(€ô)ôì() ¹ÍÕÉ™…•Mİ¥Ñ¡M¥‘”ô¡Í¥‘”ô™É½¹Ğœ¤ôùì(€L¹Í¥‘”õÍ¥‘”ì(€±•…ÉÉ¥ ¤ì(€¥˜¡L¹}µ…Í­AÉ•Ù¥•Ü¥ì ¹…¹Ù…Ì¹É•µ½Ù”¡L¹}µ…Í­AÉ•Ù¥•Ü¤ìL¹}µ…Í­AÉ•Ù¥•Üõ¹Õ±°ìô(€ ¹ÍÕÉ™…•1½…‘I•™•É•¹”¡íÍ¥±•¹Ğé™…±Í”±…ÕÑ½¹…±åé”éÑÉÕ”±Í¥‘•ô¤ì)ôì() ¹ÍÕÉ™…•ÕÑ½	½½ÑÍÑÉ…Àô ¤ôùì(€¥˜¡L¹}‰½½ÑÍÑÉ…ÁÁ•¤É•ÑÕÉ¸ì(€½¹ÍĞ¡…Í5½­ÕÀ€ô ¹…¹Ù…Ì¹•Ñ=‰©•ÑÌ ¤¹Í½µ”¡¼ôù¼¹¡…­¥-¥¹ôôôµ½­ÕÀœ¤ì(€¥˜¡¡…Í5½­ÕÀ¤É•ÑÕÉ¸ì(€L¹}‰½½ÑÍÑÉ…ÁÁ•€ôÑÉÕ”ì(€ ¹ÍÕÉ™…•1½…‘I•™•É•¹”¡íÍ¥±•¹ĞéÑÉÕ”°…ÕÑ½¹…±åé”éÑÉÕ”°Í¥‘”è™É½¹Ğô¤ì)ôì() ¹ÍÕÉ™…•Ñ¥Ù…Ñ”ô ¤ôùì(€¥˜ …L¹…¹…±åÍ¥Ì¥í ¹Ñ½…ÍĞ AÉ•Á…É„ÁÉ¥µ•É¼±„ÍÕÁ•É™¥¥”œ¤íÉ•ÑÕÉ¹ô(€½¹ÍĞõ•Ñ•Í¥¸ ¤í¥˜ …¥í ¹Ñ½…ÍĞ M•±•¥½¹„•°‘¥Í—Å¼ÅÕ”ÅÕ¥•É•ÌÁÉ½å•Ñ…Èœ¤íÉ•ÑÕÉ¹ô(€¥˜¡¹}ÍÕÉ™…•¹…‰±•¥íÉ•¹‘•ÉAÉ½©•Ñ¥½¸¡°™¥¹…°œ¤í ¸ œÍ¥‘•Á…¹•°œ¤ü¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” ½Á•¸œ¤íÉ•ÑÕÉ¹ô(€ ¹Í¹…ÁÍ¡½Ğ ¤íÉ•…Ñ•AÉ½©•Ñ¥½¸¡¤íL¹½¹ÑÉ½±±•ÉÌ¹…‘¡¤íÉ•¹‘•ÉAÉ½©•Ñ¥½¸¡°™¥¹…°œ¤í ¸ œÍ¥‘•Á…¹•°œ¤ü¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” ½Á•¸œ¤í ¹É•™É•Í  ¤í ¹Ñ½…ÍĞ 5½­ÕÀ…Ñ¥Ù¼ƒ
-ÜµÕ•Ù”•°½¹ÑÉ½°œ¤ì)ôì) ¹ÍÕÉ™…•¥Í…‰±”ô ¤ôùì(€½¹ÍĞ¼õ ¹…Ñ¥Ù” ¤í¥˜ …¼ü¹}ÍÕÉ™…•¹…‰±•¥í ¹Ñ½…ÍĞ M•±•¥½¹„•°½¹ÑÉ½°‘•°‘¥Í—Å¼œ¤íÉ•ÑÕÉ¹ô(€½¹ÍĞÀõ¼¹}ÍÕÉ™…•AÉ½©•Ñ¥½¹=‰¨í¥˜¡À¥ ¹…¹Ù…Ì¹É•µ½Ù”¡À¤í¼¹}ÍÕÉ™…•¹…‰±•õ™…±Í”í¼¹½Á…¥Ñäõ¼¹}ÍÕÉ™…•=É¥¥¹…±=Á…¥ÑäüüÄí¼¹±½‰…±½µÁ½Í¥Ñ•=Á•É…Ñ¥½¸õ¼¹}ÍÕÉ™…•=É¥¥¹…±	±•¹‘ñğÍ½ÕÉ”µ½Ù•Èœí¼¹•á±Õ‘•É½µáÁ½ÉĞõ™…±Í”í¼¹¡…­¥9…µ”ô¥Í—Å¼œí¼¹}ÍÕÉ™…•AÉ½©•Ñ¥½¹=‰¨õ¹Õ±°íL¹½¹ÑÉ½±±•ÉÌ¹‘•±•Ñ”¡¼¤í ¹Í¹…ÁÍ¡½Ğ ¤í ¹É•™É•Í  ¤í ¹Ñ½…ÍĞ AÉ½å•§Í¸‘•Í…Ñ¥Ù…‘„œ¤ì)ôì()™Õ¹Ñ¥½¸±•…ÉÉ¥ ¥íL¹É¥¹™½É… ¡¼ôù ¹…¹Ù…Ì¹É•µ½Ù”¡¼¤¤íL¹É¥õmuô) ¹ÍÕÉ™…•Q½±•É¥ô ¤ôùì(€¥˜¡L¹É¥¹±•¹Ñ ¥í±•…ÉÉ¥ ¤í ¹É•™É•Í  ¤íÉ•ÑÕÉ¹ô(€½¹ÍĞµ½¬õ•Ñ5½­ÕÀ ¤±„õL¹…¹…±åÍ¥Ìí¥˜ …µ½­ñğ…„¥í ¹Ñ½…ÍĞ AÉ•Á…É„ÁÉ¥µ•É¼±„ÍÕÁ•É™¥¥”œ¤íÉ•ÑÕÉ¹ô(€½¹ÍĞ…‘‘1¥¹”ô¡ÁÑÌ¤ôùí½¹ÍĞÁ…Ñ ô4€œ­ÁÑÌ¹µ…À ¡À±¤¤ôø¡¤ü0€œèœœ¤­À¹à¹Ñ½¥á• Ä¤¬œ€œ­À¹ä¹Ñ½¥á• Ä¤¤¹©½¥¸ œ€œ¤í½¹ÍĞ¼õ¹•Ü™…‰É¥Œ¹A…Ñ ¡Á…Ñ ±í™¥±°èœœ±ÍÑÉ½­”èœŒÀÁ•…™˜œ±ÍÑÉ½­•]¥‘Ñ èÈ±½Á…¥Ñäè¸ØÔ±Í•±•Ñ…‰±”é™…±Í”±•Ù•¹Ñ•é™…±Í”±•á±Õ‘•É½µáÁ½ÉĞéÑÉÕ•ô¤í¼¹¡…­¥-¥¹ôÍÕÉ™…”µÉ¥œí ¹…¹Ù…Ì¹…‘¡¼¤íL¹É¥¹ÁÕÍ ¡¼¥ôì(€™½È¡±•Ğàô¸ÀØíàğô¸äĞíà¬ô¸Àä¥í½¹ÍĞÁÑÌõmtí™½È¡±•Ğäô¸Ààíäğô¸äĞíä¬ô¸ÀÈÈ¥í½¹ÍĞmÍà±ÍåtõÍÕÉ™…•5…À¡„±à±ä°¸Ôà¤íÁÑÌ¹ÁÕÍ ¡…¹Ù…ÍÉ½µ%µ…•9½É´¡µ½¬±Íà±Íä¤¥õ…‘‘1¥¹”¡ÁÑÌ¥ô(€™½È¡±•Ğäô¸ÄÀíäğô¸äÈíä¬ô¸ÀàÔ¥í½¹ÍĞÁÑÌõmtí™½È¡±•Ğàô¸ÀÌíàğô¸äÜíà¬ô¸ÀÈÈ¥í½¹ÍĞmÍà±ÍåtõÍÕÉ™…•5…À¡„±à±ä°¸Ôà¤íÁÑÌ¹ÁÕÍ ¡…¹Ù…ÍÉ½µ%µ…•9½É´¡µ½¬±Íà±Íä¤¥õ…‘‘1¥¹”¡ÁÑÌ¥ô(€ ¹É•™É•Í  ¤í ¹Ñ½…ÍĞ 5…±±„‘”ÍÕÁ•É™¥¥”Ù¥Í¥‰±”œ¤ì)ôì() ¹ÍÕÉ™…•5…Í­AÉ•Ù¥•Üô ¤ôùì(€½¹ÍĞµ½¬õ•Ñ5½­ÕÀ ¤±„õL¹…¹…±åÍ¥Ìí¥˜ …µ½­ñğ…„¥í ¹Ñ½…ÍĞ Í…¹•„ÁÉ¥µ•É¼±„…µ¥Í•Ñ„œ¤íÉ•ÑÕÉ¹ô(€¥˜¡L¹}µ…Í­AÉ•Ù¥•Ü¥í ¹…¹Ù…Ì¹É•µ½Ù”¡L¹}µ…Í­AÉ•Ù¥•Ü¤íL¹}µ…Í­AÉ•Ù¥•Üõ¹Õ±°í ¹É•™É•Í  ¤í ¹Ñ½…ÍĞ 7…Í…É„½Õ±Ñ„œ¤íÉ•ÑÕÉ¹ô(€½¹ÍĞµ…Í¬õ‰Õ¥±‘5…Í­…¹Ù…Ì¡„¤ì(€™…‰É¥Œ¹%µ…”¹™É½µUI0¡µ…Í¬¹Ñ½…Ñ…UI0 ¥µ…”½Á¹œœ¤±¥µœôùì(€€€¥µœ¹Í•Ğ¡í±•™Ğéµ½¬¹±•™Ğ±Ñ½Àéµ½¬¹Ñ½À±½É¥¥¹`éµ½¬¹½É¥¥¹`±½É¥¥¹déµ½¬¹½É¥¥¹d±…¹±”éµ½¬¹…¹±”±Í…±•`é5…Ñ ¹…‰Ì¡µ½¬¹Í…±•añğÄ¤±Í…±•dé5…Ñ ¹…‰Ì¡µ½¬¹Í…±•eñğÄ¤±½Á…¥Ñäè¸Èà±Í•±•Ñ…‰±”é™…±Í”±•Ù•¹Ñ•é™…±Í”±•á±Õ‘•É½µáÁ½ÉĞéÑÉÕ•ô¤ì(€€€ ¹…¹Ù…Ì¹…‘¡¥µœ¤ìL¹}µ…Í­AÉ•Ù¥•Üõ¥µœì ¹É•™É•Í  ¤ì ¹Ñ½…ÍĞ 7…Í…É„Ù•Ñ½É¥…°Ù¥Í¥‰±”œ¤ì(€ô±íÉ½ÍÍ=É¥¥¸è…¹½¹åµ½ÕÌô¤ì)ôì() ¹¥¹ÍÑ…±±MÕÉ™…•Ù•¹ÑÌô ¤ôùì(€¥˜¡ ¹}ÍÕÉ™…•Ù•¹ÑÌ¥É•ÑÕÉ¸í ¹}ÍÕÉ™…•Ù•¹ÑÌõÑÉÕ”í½¹ÍĞŒõ ¹…¹Ù…Ìì(€l½‰©•Ğéµ½Ù¥¹œœ°½‰©•ĞéÍ…±¥¹œœ°½‰©•ĞéÉ½Ñ…Ñ¥¹œœ°½‰©•ĞéÍ­•İ¥¹œt¹™½É… ¡•ØôùŒ¹½¸¡•Ø±”ôùÍ¡•‘Õ±”¡”¹Ñ…É•Ğ°±¥Ù”œ¤¤¤ì(€Œ¹½¸ ½‰©•Ğéµ½‘¥™¥•œ±”ôùÍ¡•‘Õ±”¡”¹Ñ…É•Ğ°™¥¹…°œ¤¤ì)ôì() ¹¥¹ÍÑ…±±Mµ…ÉÑU$ô ¤ôùì(€½¹ÍĞÁ…”õ ¸ œµ½­ÕÁA…”œ¤í¥˜ …Á…•ññ ¸ œÍÕÉ™…•…Éœ¤¥É•ÑÕÉ¸ì(€½¹ÍĞ…Éõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‘¥Øœ¤í…É¹±…ÍÍ9…µ”ô…Éœí…É¹¥ôÍÕÉ™…•…Éœí…É¹¥¹¹•É!Q50õ€(€€€€ñ Ìù5½­ÕÀ€Í‘”ÍÕÁ•É™¥¥”€ñÍÁ…¸¥ô‰ÍÕÉ™…•M¥‘•Q…œˆÍÑå±”ô‰™½¹ĞµÍ¥é”èÄÅÁàíÁ…‘‘¥¹œèÍÁà€ÙÁàí‰½É‘•ÈèÅÁàÍ½±¥€ŒÌÀÌØĞÄí‰½É‘•ÈµÉ…‘¥ÕÌèääåÁàíµ…É¥¸µ±•™ĞèÙÁàˆùI9Qğ½ÍÁ…¸øğ½ Ìø(€€€€ñÀ±…ÍÌô‰¡¥¹Ğˆù…±¥‰É…‘¼ƒé¹¥…µ•¹Ñ”Á…É„•ÍÑ„…µ¥Í•Ñ„!-$¸UÍ„·…Í…É…Ìµ…¹Õ…±•ÌÁÉ•¥Í…ÌÁ…É„™É•¹Ñ”ä•ÍÁ…±‘„°½¸Õ•±±¼ä…á¥±…Ì…©ÕÍÑ…‘½Ì•ÍÁ•µ™¥…µ•¹Ñ”„•ÍÑ„…µ¥Í•Ñ„¸ğ½Àø(€€€€ñ‘¥Ø±…ÍÌô‰É¥Èˆøñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•É½¹ÑI•˜ˆù…É…È™É•¹Ñ”ğ½‰ÕÑÑ½¸øñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•	…­I•˜ˆù…É…È•ÍÁ…±‘„ğ½‰ÕÑÑ½¸øğ½‘¥Øø(€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰İ¥‘”ÁÉ¥µ…Éäˆ¥ô‰ÍÕÉ™…•¹…±åé”ˆÍÑå±”ô‰µ…É¥¸µÑ½ÀèáÁàˆøÄƒ
-ÜÍ…¹•…È±…‘¼…ÑÕ…°ğ½‰ÕÑÑ½¸ø(€€€€ñ‘¥Ø¥ô‰ÍÕÉ™…•I•ÍÕ±ĞˆÍÑå±”ô‰µ…É¥¸èÄÁÁà€ÀíÁ…‘‘¥¹œèÄÁÁàí‰½É‘•ÈèÅÁàÍ½±¥€ŒÌÀÌØĞÄí‰½É‘•ÈµÉ…‘¥ÕÌèáÁàí™½¹ĞµÍ¥é”èÄÉÁàí½±½ÈèŒáÁäˆùM¥¸ÁÉ•Á…É…Èğ½‘¥Øø(€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰İ¥‘”ÁÉ¥µ…Éäˆ¥ô‰ÍÕÉ™…•Ñ¥Ù…Ñ”ˆ‘¥Í…‰±•øÈƒ
-ÜÑ¥Ù…ÈÁÉ½å•§Í¸ğ½‰ÕÑÑ½¸ø(€€€€ñ‘¥Ø±…ÍÌô‰É¥ÈˆÍÑå±”ô‰µ…É¥¸µÑ½ÀèáÁàˆøñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•É¥ˆ‘¥Í…‰±•ùY•Èµ…±±„ğ½‰ÕÑÑ½¸øñ‰ÕÑÑ½¸¥ô‰ÍÕÉ™…•¥Í…‰±”ˆù•Í…Ñ¥Ù…Èğ½‰ÕÑÑ½¸øğ½‘¥Øøñ‰ÕÑÑ½¸±…ÍÌô‰İ¥‘”ˆ¥ô‰ÍÕÉ™…•5…Í­AÉ•Ù¥•ÜˆÍÑå±”ô‰µ…É¥¸µÑ½ÀèáÁàˆùY•È·…Í…É„Ù•Ñ½É¥…°ğ½‰ÕÑÑ½¸ø(€€€€ñ±…‰•°ùÕÉÙ…ÑÕÉ„€ñÍÁ…¸¥ô‰ÍÕÉ™…•MÑÉ•¹Ñ¡Y…±Õ”ˆøĞà”ğ½ÍÁ…¸øñ¥¹ÁÕĞ¥ô‰ÍÕÉ™…•MÑÉ•¹Ñ ˆÑåÁ”ô‰É…¹”ˆµ¥¸ôˆÀˆµ…àôˆÄÀÀˆÙ…±Õ”ôˆĞàˆøğ½±…‰•°ø(€€€€ñÀ±…ÍÌô‰¡¥¹Ğˆù•ÍÁ×¥Ì‘”…Ñ¥Ù…È°µÕ•Ù”½•Í…±„½É½Ñ„•°µ…É¼‘•°‘¥Í—Å¼‘¥É•Ñ…µ•¹Ñ”Í½‰É”±„…µ¥Í•Ñ„¸AÕ•‘•Ì…±Ñ•É¹…È•¹ÑÉ”™É•¹Ñ”ä•ÍÁ…±‘„¸ğ½Àù€ì(€Á…”¹ÁÉ•Á•¹¡…É¤ì(€ ¸ œÍÕÉ™…•É½¹ÑI•˜œ¤¹½¹±¥¬ô ¤ôù ¹ÍÕÉ™…•Mİ¥Ñ¡M¥‘” ™É½¹Ğœ¤í ¸ œÍÕÉ™…•	…­I•˜œ¤¹½¹±¥¬ô ¤ôù ¹ÍÕÉ™…•Mİ¥Ñ¡M¥‘” ‰…¬œ¤í ¸ œÍÕÉ™…•¹…±åé”œ¤¹½¹±¥¬ô ¤ôù ¹ÍÕÉ™…•¹…±åé”¡íÍ¥‘”éL¹Í¥‘•ô¤í ¸ œÍÕÉ™…•Ñ¥Ù…Ñ”œ¤¹½¹±¥¬õ ¹ÍÕÉ™…•Ñ¥Ù…Ñ”í ¸ œÍÕÉ™…•¥Í…‰±”œ¤¹½¹±¥¬õ ¹ÍÕÉ™…•¥Í…‰±”í ¸ œÍÕÉ™…•É¥œ¤¹½¹±¥¬õ ¹ÍÕÉ™…•Q½±•É¥í ¸ œÍÕÉ™…•5…Í­AÉ•Ù¥•Üœ¤¹½¹±¥¬õ ¹ÍÕÉ™…•5…Í­AÉ•Ù¥•Üì(€ ¸ œÍÕÉ™…•MÑÉ•¹Ñ œ¤¹½¹¥¹ÁÕĞõ”ôùí ¸ œÍÕÉ™…•MÑÉ•¹Ñ¡Y…±Õ”œ¤¹Ñ•áÑ½¹Ñ•¹Ğõ”¹Ñ…É•Ğ¹Ù…±Õ”¬œ”œí½¹ÍĞ¼õ ¹…Ñ¥Ù” ¤í¥˜¡¼ü¹}ÍÕÉ™…•¹…‰±•¥í¼¹}ÍÕÉ™…•MÑÉ•¹Ñ ô­”¹Ñ…É•Ğ¹Ù…±Õ”¼ÄÀÀíÍ¡•‘Õ±”¡¼°™¥¹…°œ¥õôì(€ ¹¥¹ÍÑ…±±MÕÉ™…•Ù•¹ÑÌ ¤ì(€Í•ÑQ¥µ•½ÕĞ  ¤ôù ¹ÍÕÉ™…•ÕÑ½	½½ÑÍÑÉ…À˜™ ¹ÍÕÉ™…•ÕÑ½	½½ÑÍÑÉ…À ¤°€àÀ¤ì)ôì)ô¤ ¤ì(
+      [0.350,0.141],[0.418,0.102],[0.500,0.090],[0.582,0.102],[0.650,0.141],[0.695,0.208],[0.723,0.267],[0.740,0.331],
+      [0.753,0.404],[0.766,0.474],[0.790,0.540],[0.820,0.586],[0.980,0.554],[0.980,0.497],[0.963,0.349],[0.937,0.257],
+      [0.904,0.201],[0.847,0.145],[0.785,0.105],[0.715,0.080],[0.640,0.070],[0.671,0.582],[0.697,0.650],[0.716,0.721],
+      [0.730,0.794],[0.739,0.863],[0.741,0.909],[0.734,0.940],[0.667,0.958],[0.500,0.968],[0.333,0.958],[0.266,0.940],
+      [0.259,0.909],[0.261,0.863],[0.270,0.794],[0.284,0.721],[0.303,0.650],[0.329,0.582]
+    ],
+    axLeft:[[0.198,0.388],[0.223,0.360],[0.247,0.370],[0.245,0.419],[0.228,0.453],[0.204,0.440]],
+    axRight:[[0.802,0.388],[0.777,0.360],[0.753,0.370],[0.755,0.419],[0.772,0.453],[0.796,0.440]],
+    neck:null
+  }
+};
+function drawNormPoly(ctx,w,h,pts){
+  if(!pts||!pts.length) return;
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0]*w, pts[0][1]*h);
+  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0]*w, pts[i][1]*h);
+  ctx.closePath();
+}
+function buildMaskCanvas(a){
+  if(a.maskCanvas) return a.maskCanvas;
+  const cv=document.createElement('canvas'); cv.width=a.sw; cv.height=a.sh;
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const side=(a.side==='back')?'back':'front';
+  const m=PRECISE_MASKS[side];
+  ctx.fillStyle='#000';
+  drawNormPoly(ctx,cv.width,cv.height,m.outer); ctx.fill();
+  ctx.save();
+  ctx.globalCompositeOperation='destination-out';
+  drawNormPoly(ctx,cv.width,cv.height,m.axLeft); ctx.fill();
+  drawNormPoly(ctx,cv.width,cv.height,m.axRight); ctx.fill();
+  // add a tiny ellipse to open the deepest armhole point without eating the sleeve
+  const punch=(x,y,rx,ry)=>{
+    ctx.beginPath();
+    if(ctx.ellipse) ctx.ellipse(x*cv.width,y*cv.height,rx*cv.width,ry*cv.height,0,0,Math.PI*2);
+    else { ctx.save(); ctx.translate(x*cv.width,y*cv.height); ctx.scale(rx*cv.width,ry*cv.height); ctx.arc(0,0,1,0,Math.PI*2); ctx.restore(); }
+    ctx.fill();
+  };
+  punch(0.224,0.410,0.015,0.022);
+  punch(0.776,0.410,0.015,0.022);
+  if(m.neck){
+    ctx.beginPath();
+    if(ctx.ellipse) ctx.ellipse(m.neck.cx*cv.width,m.neck.cy*cv.height,m.neck.rx*cv.width,m.neck.ry*cv.height,0,0,Math.PI*2);
+    else { ctx.save(); ctx.translate(m.neck.cx*cv.width,m.neck.cy*cv.height); ctx.scale(m.neck.rx*cv.width,m.neck.ry*cv.height); ctx.arc(0,0,1,0,Math.PI*2); ctx.restore(); }
+    ctx.fill();
+  }
+  ctx.restore();
+  a.maskCanvas=cv;
+  return cv;
+}
+// Fixed deformation field calibrated specifically for the supplied HAKI front shirt.
+// Coordinates here are normalized to the ORIGINAL REFERENCE IMAGE, not to a bounding box.
+// This avoids the scale jumps that happened when the design crossed from torso to sleeves.
+function imageReliefSample(a,x,y){
+  const b=a.bbox;
+  const bx=((x*a.sw/a.scaleX)-b.minX)/b.bw;
+  const by=((y*a.sh/a.scaleY)-b.minY)/b.bh;
+  return sampleRelief(a,bx,by);
+}
+function gauss2(x,y,cx,cy,sx,sy){
+  const dx=(x-cx)/sx,dy=(y-cy)/sy;
+  return Math.exp(-(dx*dx+dy*dy)/2);
+}
+function rotateBlend(x,y,px,py,angle,weight){
+  const dx=x-px,dy=y-py,c=Math.cos(angle),s=Math.sin(angle);
+  const rx=px+dx*c-dy*s, ry=py+dx*s+dy*c;
+  return [x+(rx-x)*weight,y+(ry-y)*weight];
+}
+function surfaceMapFront(a,x,y,strength=1){
+  if(x<-.10||x>1.10||y<-.10||y>1.10)return[x,y];
+  const k=clamp(strength,0,1);
+  let nx=x,ny=y;
+  const torso=gauss2(x,y,.50,.52,.27,.34);
+  const upperTorso=gauss2(x,y,.50,.34,.30,.21);
+  nx+=(x-.50)*(.030*torso+.018*upperTorso)*k;
+  const pecL=gauss2(x,y,.385,.355,.115,.090), pecR=gauss2(x,y,.615,.355,.115,.090);
+  nx+=(x-.385)*pecL*.065*k + (x-.615)*pecR*.065*k;
+  ny-=pecL*.016*k + pecR*.016*k;
+  const lowerL=gauss2(x,y,.39,.425,.14,.085), lowerR=gauss2(x,y,.61,.425,.14,.085), sternum=gauss2(x,y,.50,.365,.070,.14);
+  ny-=lowerL*.006*k+lowerR*.006*k;
+  ny+=sternum*.005*k;
+  const shL=gauss2(x,y,.235,.205,.15,.080), shR=gauss2(x,y,.765,.205,.15,.080);
+  nx+=(x-.235)*shL*.032*k + (x-.765)*shR*.032*k;
+  ny-=(shL+shR)*.007*k;
+  const axL=gauss2(x,y,.245,.395,.075,.075), axR=gauss2(x,y,.755,.395,.075,.075);
+  nx+=axL*.010*k; nx-=axR*.010*k;
+  const sideL=gauss2(x,y,.265,.565,.070,.19), sideR=gauss2(x,y,.735,.565,.070,.19);
+  nx+=sideL*.007*k; nx-=sideR*.007*k;
+  const abs=gauss2(x,y,.50,.61,.22,.25), oblL=gauss2(x,y,.39,.59,.13,.18), oblR=gauss2(x,y,.61,.59,.13,.18);
+  nx+=(x-.50)*abs*.012*k;
+  nx+=(x-.39)*oblL*.008*k+(x-.61)*oblR*.008*k;
+  ny-=abs*.0025*k;
+  const sleeveL=gauss2(x,y,.115,.315,.13,.13), sleeveR=gauss2(x,y,.885,.315,.13,.13);
+  if(sleeveL>.001){ const p=rotateBlend(nx,ny,.275,.245,-0.105*k,sleeveL*.78); nx=p[0];ny=p[1]; }
+  if(sleeveR>.001){ const p=rotateBlend(nx,ny,.725,.245,0.105*k,sleeveR*.78); nx=p[0];ny=p[1]; }
+  const rv=imageReliefSample(a,x,y), eps=.010;
+  const gx=(imageReliefSample(a,x+eps,y)-imageReliefSample(a,x-eps,y))/(2*eps), gy=(imageReliefSample(a,x,y+eps)-imageReliefSample(a,x,y-eps))/(2*eps);
+  nx+=gx*.0032*k + rv*(x-.5)*.0020*k;
+  ny+=gy*.0024*k - rv*.0010*k;
+  const edge=Math.min(x,1-x,y,1-y), damp=clamp(edge/.12,0,1);
+  nx=x+(nx-x)*(.82+.18*damp);
+  ny=y+(ny-y)*(.86+.14*damp);
+  return [nx,ny];
+}
+
+function surfaceMapBack(a,x,y,strength=1){
+  if(x<-.10||x>1.10||y<-.10||y>1.10)return[x,y];
+  const k=clamp(strength,0,1);
+  let nx=x,ny=y;
+  const upperBack=gauss2(x,y,.50,.30,.31,.18);
+  const midBack=gauss2(x,y,.50,.48,.30,.22);
+  const lowerBack=gauss2(x,y,.50,.67,.26,.20);
+  nx+=(x-.50)*(.024*upperBack + .020*midBack + .010*lowerBack)*k;
+  // Shoulder blade zones: subtle but broader than front pecs.
+  const scapL=gauss2(x,y,.37,.34,.13,.11), scapR=gauss2(x,y,.63,.34,.13,.11);
+  nx+=(x-.37)*scapL*.036*k + (x-.63)*scapR*.036*k;
+  ny-=scapL*.009*k + scapR*.009*k;
+  // Raglan back shoulders.
+  const shL=gauss2(x,y,.225,.18,.16,.085), shR=gauss2(x,y,.775,.18,.16,.085);
+  nx+=(x-.225)*shL*.030*k + (x-.775)*shR*.030*k;
+  ny-=(shL+shR)*.006*k;
+  // Lat/waist taper.
+  const latL=gauss2(x,y,.26,.46,.10,.17), latR=gauss2(x,y,.74,.46,.10,.17);
+  nx+=latL*.010*k; nx-=latR*.010*k;
+  const waistL=gauss2(x,y,.30,.66,.09,.15), waistR=gauss2(x,y,.70,.66,.09,.15);
+  nx+=waistL*.006*k; nx-=waistR*.006*k;
+  const backAbs=gauss2(x,y,.50,.66,.24,.22);
+  nx+=(x-.50)*backAbs*.008*k;
+  const sleeveL=gauss2(x,y,.115,.315,.13,.13), sleeveR=gauss2(x,y,.885,.315,.13,.13);
+  if(sleeveL>.001){ const p=rotateBlend(nx,ny,.275,.245,-0.090*k,sleeveL*.72); nx=p[0];ny=p[1]; }
+  if(sleeveR>.001){ const p=rotateBlend(nx,ny,.725,.245,0.090*k,sleeveR*.72); nx=p[0];ny=p[1]; }
+  const rv=imageReliefSample(a,x,y), eps=.010;
+  const gx=(imageReliefSample(a,x+eps,y)-imageReliefSample(a,x-eps,y))/(2*eps), gy=(imageReliefSample(a,x,y+eps)-imageReliefSample(a,x,y-eps))/(2*eps);
+  nx+=gx*.0028*k + rv*(x-.5)*.0016*k;
+  ny+=gy*.0021*k - rv*.0008*k;
+  const edge=Math.min(x,1-x,y,1-y), damp=clamp(edge/.12,0,1);
+  nx=x+(nx-x)*(.84+.16*damp);
+  ny=y+(ny-y)*(.88+.12*damp);
+  return [nx,ny];
+}
+
+function surfaceMap(a,x,y,strength=1){
+  return (a.side==='back' ? surfaceMapBack : surfaceMapFront)(a,x,y,strength);
+}
+
+function imageNormFromCanvas(mock,canvasPt){
+  const inv=fabric.util.invertTransform(mock.calcTransformMatrix());
+  const p=fabric.util.transformPoint(canvasPt,inv);
+  return[(p.x+mock.width/2)/mock.width,(p.y+mock.height/2)/mock.height];
+}
+function canvasFromImageNorm(mock,nx,ny){
+  return toCanvasPoint(mock,nx*mock.width,ny*mock.height);
+}
+function silhouetteClip(mock,a){
+  const pts=a.contour.map(([x,y])=>toCanvasPoint(mock,x*a.scaleX,y*a.scaleY));
+  if(pts.length<6)return null;
+  const path='M '+pts.map((p,i)=>(i?'L ':'')+p.x.toFixed(2)+' '+p.y.toFixed(2)).join(' ')+' Z';
+  return new fabric.Path(path,{absolutePositioned:true,fill:'#000',stroke:null,selectable:false,evented:false});
+}
+
+function createProjection(sourceObj){
+  const el=sourceObj.getElement(),sw=el.naturalWidth||el.videoWidth||el.width,sh=el.naturalHeight||el.videoHeight||el.height;
+  const max=700,s=Math.min(1,max/Math.max(sw,sh)),rw=Math.max(64,Math.round(sw*s)),rh=Math.max(64,Math.round(sh*s));
+  const src=document.createElement('canvas');src.width=rw;src.height=rh;const sx=src.getContext('2d');sx.imageSmoothingEnabled=true;sx.imageSmoothingQuality='high';sx.drawImage(el,0,0,rw,rh);
+  const out=document.createElement('canvas');out.width=H.canvas.getWidth();out.height=H.canvas.getHeight();
+  const originalOpacity=sourceObj.opacity??1,originalBlend=sourceObj.globalCompositeOperation||'source-over';
+  const projection=new fabric.Image(out,{left:0,top:0,originX:'left',originY:'top',selectable:false,evented:false,objectCaching:false,excludeFromExport:false,opacity:originalOpacity,globalCompositeOperation:originalBlend});
+  H.addMeta(projection,'projection','ProyecciÃ³n mockup');projection._surfaceProjection=true;
+
+  sourceObj._surfaceSource=src;sourceObj._surfaceProjectionObj=projection;sourceObj._surfaceEnabled=true;sourceObj._surfaceStrength=+(H.$('#surfaceStrength')?.value||48)/100;sourceObj._surfaceOriginalOpacity=originalOpacity;sourceObj._surfaceOriginalBlend=originalBlend;
+  sourceObj.excludeFromExport=true;sourceObj.opacity=.001;sourceObj.hakiName='Control del diseÃ±o';
+  const idx=H.canvas.getObjects().indexOf(sourceObj);H.canvas.insertAt(projection,Math.max(0,idx),false);sourceObj.bringToFront();H.canvas.setActiveObject(sourceObj);
+  return projection;
+}
+
+function affine(s,d){
+  const [a,b,c]=s,[A,B,C]=d,x0=a[0],y0=a[1],x1=b[0],y1=b[1],x2=c[0],y2=c[1],D=x0*(y1-y2)+x1*(y2-y0)+x2*(y0-y1);if(Math.abs(D)<1e-7)return null;
+  return[(A[0]*(y1-y2)+B[0]*(y2-y0)+C[0]*(y0-y1))/D,(A[1]*(y1-y2)+B[1]*(y2-y0)+C[1]*(y0-y1))/D,(A[0]*(x2-x1)+B[0]*(x0-x2)+C[0]*(x1-x0))/D,(A[1]*(x2-x1)+B[1]*(x0-x2)+C[1]*(x1-x0))/D,(A[0]*(x1*y2-x2*y1)+B[0]*(x2*y0-x0*y2)+C[0]*(x0*y1-x1*y0))/D,(A[1]*(x1*y2-x2*y1)+B[1]*(x2*y0-x0*y2)+C[1]*(x0*y1-x1*y0))/D];
+}
+
+function renderProjection(controller,quality='live'){
+  if(!controller?._surfaceEnabled||!S.analysis)return;
+  const mock=getMockup(),proj=controller._surfaceProjectionObj,src=controller._surfaceSource;if(!mock||!proj||!src)return;
+  const out=proj.getElement(),ctx=out.getContext('2d',{alpha:true});ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,out.width,out.height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  const a=S.analysis,strength=controller._surfaceStrength??.48,M=controller.calcTransformMatrix();
+  const N=quality==='final'?26:12,sw=src.width,sh=src.height;
+  const map=(u,v)=>{
+    const local=new fabric.Point((u-.5)*controller.width,(v-.5)*controller.height);
+    const flatCanvas=fabric.util.transformPoint(local,M);
+    const [x,y]=imageNormFromCanvas(mock,flatCanvas);
+    if(x<-.18||x>1.18||y<-.18||y>1.18)return [flatCanvas.x,flatCanvas.y];
+    const [sx,sy]=surfaceMap(a,x,y,strength);
+    const p=canvasFromImageNorm(mock,sx,sy);return[p.x,p.y];
+  };
+  const tri=(s,d)=>{const m=affine(s,d);if(!m)return;ctx.save();ctx.beginPath();ctx.moveTo(...d[0]);ctx.lineTo(...d[1]);ctx.lineTo(...d[2]);ctx.closePath();ctx.clip();ctx.setTransform(...m);ctx.drawImage(src,0,0);ctx.restore()};
+  for(let iy=0;iy<N;iy++)for(let ix=0;ix<N;ix++){
+    const u0=ix/N,u1=(ix+1)/N,v0=iy/N,v1=(iy+1)/N;
+    const s00=[u0*sw,v0*sh],s10=[u1*sw,v0*sh],s11=[u1*sw,v1*sh],s01=[u0*sw,v1*sh];
+    const d00=map(u0,v0),d10=map(u1,v0),d11=map(u1,v1),d01=map(u0,v1);
+    tri([s00,s10,s11],[d00,d10,d11]);tri([s00,s11,s01],[d00,d11,d01]);
+  }
+  const mask=buildMaskCanvas(a);
+  ctx.save();
+  ctx.globalCompositeOperation='destination-in';
+  const m=mock.calcTransformMatrix();
+  ctx.setTransform(m[0],m[1],m[2],m[3],m[4],m[5]);
+  ctx.drawImage(mask,-mock.width/2,-mock.height/2,mock.width,mock.height);
+  ctx.restore();
+  proj.clipPath=null;proj.dirty=true;H.canvas.requestRenderAll();
+}
+function schedule(controller,q='live'){
+  if(!controller?._surfaceEnabled)return;controller._surfaceNext=q;if(controller._surfaceRAF)return;
+  controller._surfaceRAF=requestAnimationFrame(()=>{controller._surfaceRAF=0;const quality=controller._surfaceNext||'live';controller._surfaceNext='live';renderProjection(controller,quality)});
+}
+
+
+H.surfaceLoadReference=(opts={})=>{
+  const {silent=false,autoAnalyze=false,side=S.side||'front'}=opts;
+  S.side=side;
+  const src=S.refs[side]||S.refs.front;
+  fabric.Image.fromURL(src,img=>{
+    if(!img){ if(!silent) H.toast('No pude cargar la camiseta de referencia'); return; }
+    H.canvas.getObjects().filter(o=>o.hakiKind==='mockup').forEach(o=>H.canvas.remove(o));
+    const mw=H.canvas.getWidth()*.90,mh=H.canvas.getHeight()*.90,sc=Math.min(mw/img.width,mh/img.height,1);
+    img.set({left:H.canvas.getWidth()/2,top:H.canvas.getHeight()/2,originX:'center',originY:'center',scaleX:sc,scaleY:sc,globalCompositeOperation:'source-over'});
+    H.addMeta(img,'mockup',side==='back'?'Mockup HAKI trasero':'Mockup HAKI frontal');
+    H.canvas.insertAt(img,0,false);H.canvas.setActiveObject(img);H.snapshot();H.refresh();H.fit();
+    const label=side==='back'?'espalda':'frente';
+    if(!silent) H.toast('Camiseta '+label+' cargada');
+    const tag=H.$('#surfaceSideTag'); if(tag) tag.textContent = side==='back' ? 'ESPALDA' : 'FRENTE';
+    if(autoAnalyze) setTimeout(()=>H.surfaceAnalyze({silent,side}), 60);
+  },{crossOrigin:'anonymous'});
+};
+
+H.surfaceAnalyze=(opts={})=>{
+  const {silent=false,side=S.side||'front'}=opts;
+  const mock=getMockup();if(!mock){ if(!silent) H.toast('Importa la camiseta'); return false; }
+  try{
+    S.analysis=analyzeShirt(mock,side);S.mockupId=mock.hakiId;S.side=side;
+    const pct=Math.round(S.analysis.confidence*100);
+    const label=side==='back'?'espalda':'frente';
+    H.$('#surfaceResult').innerHTML=`<strong>Camiseta ${label} preparada</strong><br><span>MÃ¡scara manual precisa de ${label} Â· confianza ${pct}%.</span>`;
+    H.$('#surfaceActivate').disabled=false;H.$('#surfaceGrid').disabled=false;
+    const tag=H.$('#surfaceSideTag'); if(tag) tag.textContent = side==='back' ? 'ESPALDA' : 'FRENTE';
+    if(!silent) H.toast('Superficie de camiseta creada');
+    return true;
+  }catch(e){
+    H.$('#surfaceResult').innerHTML='<strong>No detectada</strong><br><span>Usa el mockup frontal o trasero indicado.</span>';
+    if(!silent) H.toast(e.message||'No pude analizarla');
+    return false;
+  }
+};
+
+H.surfaceSwitchSide=(side='front')=>{
+  S.side=side;
+  clearGrid();
+  if(S._maskPreview){ H.canvas.remove(S._maskPreview); S._maskPreview=null; }
+  H.surfaceLoadReference({silent:false,autoAnalyze:true,side});
+};
+
+H.surfaceAutoBootstrap=()=>{
+  if(S._bootstrapped) return;
+  const hasMockup = H.canvas.getObjects().some(o=>o.hakiKind==='mockup');
+  if(hasMockup) return;
+  S._bootstrapped = true;
+  H.surfaceLoadReference({silent:true, autoAnalyze:true, side:'front'});
+};
+
+H.surfaceActivate=()=>{
+  if(!S.analysis){H.toast('Prepara primero la superficie');return}
+  const d=getDesign();if(!d){H.toast('Selecciona el diseÃ±o que quieres proyectar');return}
+  if(d._surfaceEnabled){renderProjection(d,'final');H.$('#sidepanel')?.classList.remove('open');return}
+  H.snapshot();createProjection(d);S.controllers.add(d);renderProjection(d,'final');H.$('#sidepanel')?.classList.remove('open');H.refresh();H.toast('Mockup activo Â· mueve el control');
+};
+H.surfaceDisable=()=>{
+  const o=H.active();if(!o?._surfaceEnabled){H.toast('Selecciona el control del diseÃ±o');return}
+  const p=o._surfaceProjectionObj;if(p)H.canvas.remove(p);o._surfaceEnabled=false;o.opacity=o._surfaceOriginalOpacity??1;o.globalCompositeOperation=o._surfaceOriginalBlend||'source-over';o.excludeFromExport=false;o.hakiName='DiseÃ±o';o._surfaceProjectionObj=null;S.controllers.delete(o);H.snapshot();H.refresh();H.toast('ProyecciÃ³n desactivada');
+};
+
+function clearGrid(){S.grid.forEach(o=>H.canvas.remove(o));S.grid=[]}
+H.surfaceToggleGrid=()=>{
+  if(S.grid.length){clearGrid();H.refresh();return}
+  const mock=getMockup(),a=S.analysis;if(!mock||!a){H.toast('Prepara primero la superficie');return}
+  const addLine=(pts)=>{const path='M '+pts.map((p,i)=>(i?'L ':'')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');const o=new fabric.Path(path,{fill:'',stroke:'#00eaff',strokeWidth:2,opacity:.65,selectable:false,evented:false,excludeFromExport:true});o.hakiKind='surface-grid';H.canvas.add(o);S.grid.push(o)};
+  for(let x=.06;x<=.94;x+=.09){const pts=[];for(let y=.08;y<=.94;y+=.022){const [sx,sy]=surfaceMap(a,x,y,.58);pts.push(canvasFromImageNorm(mock,sx,sy))}addLine(pts)}
+  for(let y=.10;y<=.92;y+=.085){const pts=[];for(let x=.03;x<=.97;x+=.022){const [sx,sy]=surfaceMap(a,x,y,.58);pts.push(canvasFromImageNorm(mock,sx,sy))}addLine(pts)}
+  H.refresh();H.toast('Malla de superficie visible');
+};
+
+H.surfaceMaskPreview=()=>{
+  const mock=getMockup(),a=S.analysis;if(!mock||!a){H.toast('Escanea primero la camiseta');return}
+  if(S._maskPreview){H.canvas.remove(S._maskPreview);S._maskPreview=null;H.refresh();H.toast('MÃ¡scara oculta');return}
+  const mask=buildMaskCanvas(a);
+  fabric.Image.fromURL(mask.toDataURL('image/png'),img=>{
+    img.set({left:mock.left,top:mock.top,originX:mock.originX,originY:mock.originY,angle:mock.angle,scaleX:Math.abs(mock.scaleX||1),scaleY:Math.abs(mock.scaleY||1),opacity:.28,selectable:false,evented:false,excludeFromExport:true});
+    H.canvas.add(img); S._maskPreview=img; H.refresh(); H.toast('MÃ¡scara vectorial visible');
+  },{crossOrigin:'anonymous'});
+};
+
+H.installSurfaceEvents=()=>{
+  if(H._surfaceEvents)return;H._surfaceEvents=true;const c=H.canvas;
+  ['object:moving','object:scaling','object:rotating','object:skewing'].forEach(ev=>c.on(ev,e=>schedule(e.target,'live')));
+  c.on('object:modified',e=>schedule(e.target,'final'));
+};
+
+H.installSmartUI=()=>{
+  const page=H.$('#mockupPage');if(!page||H.$('#surfaceCard'))return;
+  const card=document.createElement('div');card.className='card';card.id='surfaceCard';card.innerHTML=`
+    <h3>Mockup 3D de superficie <span id="surfaceSideTag" style="font-size:11px;padding:3px 6px;border:1px solid #303641;border-radius:999px;margin-left:6px">FRENTE</span></h3>
+    <p class="hint">Calibrado Ãºnicamente para esta camiseta HAKI. Usa mÃ¡scaras manuales precisas para frente y espalda, con cuello y axilas ajustados especÃ­ficamente a esta camiseta.</p>
+    <div class="grid2"><button id="surfaceFrontRef">Cargar frente</button><button id="surfaceBackRef">Cargar espalda</button></div>
+    <button class="wide primary" id="surfaceAnalyze" style="margin-top:8px">1 Â· Escanear lado actual</button>
+    <div id="surfaceResult" style="margin:10px 0;padding:10px;border:1px solid #303641;border-radius:8px;font-size:12px;color:#c8d0d9">Sin preparar</div>
+    <button class="wide primary" id="surfaceActivate" disabled>2 Â· Activar proyecciÃ³n</button>
+    <div class="grid2" style="margin-top:8px"><button id="surfaceGrid" disabled>Ver malla</button><button id="surfaceDisable">Desactivar</button></div><button class="wide" id="surfaceMaskPreview" style="margin-top:8px">Ver mÃ¡scara vectorial</button>
+    <label>Curvatura <span id="surfaceStrengthValue">48%</span><input id="surfaceStrength" type="range" min="0" max="100" value="48"></label>
+    <p class="hint">DespuÃ©s de activar, mueve/escala/rota el marco del diseÃ±o directamente sobre la camiseta. Puedes alternar entre frente y espalda.</p>`;
+  page.prepend(card);
+  H.$('#surfaceFrontRef').onclick=()=>H.surfaceSwitchSide('front');H.$('#surfaceBackRef').onclick=()=>H.surfaceSwitchSide('back');H.$('#surfaceAnalyze').onclick=()=>H.surfaceAnalyze({side:S.side});H.$('#surfaceActivate').onclick=H.surfaceActivate;H.$('#surfaceDisable').onclick=H.surfaceDisable;H.$('#surfaceGrid').onclick=H.surfaceToggleGrid;H.$('#surfaceMaskPreview').onclick=H.surfaceMaskPreview;
+  H.$('#surfaceStrength').oninput=e=>{H.$('#surfaceStrengthValue').textContent=e.target.value+'%';const o=H.active();if(o?._surfaceEnabled){o._surfaceStrength=+e.target.value/100;schedule(o,'final')}};
+  H.installSurfaceEvents();
+  setTimeout(()=>H.surfaceAutoBootstrap&&H.surfaceAutoBootstrap(), 80);
+};
+})();
