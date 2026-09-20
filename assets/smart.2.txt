@@ -1,4 +1,14 @@
-latCanvas.x,flatCanvas.y];
+function renderProjection(controller,quality='live'){
+  if(!controller?._surfaceEnabled||!S.analysis)return;
+  const mock=getMockup(),proj=controller._surfaceProjectionObj,src=controller._surfaceSource;if(!mock||!proj||!src)return;
+  const out=proj.getElement(),ctx=out.getContext('2d',{alpha:true});ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,out.width,out.height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  const a=S.analysis,strength=controller._surfaceStrength??.48,M=controller.calcTransformMatrix();
+  const N=quality==='final'?26:12,sw=src.width,sh=src.height;
+  const map=(u,v)=>{
+    const local=new fabric.Point((u-.5)*controller.width,(v-.5)*controller.height);
+    const flatCanvas=fabric.util.transformPoint(local,M);
+    const [x,y]=imageNormFromCanvas(mock,flatCanvas);
+    if(x<-.18||x>1.18||y<-.18||y>1.18)return [flatCanvas.x,flatCanvas.y];
     const [sx,sy]=surfaceMap(a,x,y,strength);
     const p=canvasFromImageNorm(mock,sx,sy);return[p.x,p.y];
   };
@@ -22,6 +32,7 @@ function schedule(controller,q='live'){
   if(!controller?._surfaceEnabled)return;controller._surfaceNext=q;if(controller._surfaceRAF)return;
   controller._surfaceRAF=requestAnimationFrame(()=>{controller._surfaceRAF=0;const quality=controller._surfaceNext||'live';controller._surfaceNext='live';renderProjection(controller,quality)});
 }
+
 
 H.surfaceLoadReference=(opts={})=>{
   const {silent=false,autoAnalyze=false,side=S.side||'front'}=opts;
@@ -90,7 +101,7 @@ function clearGrid(){S.grid.forEach(o=>H.canvas.remove(o));S.grid=[]}
 H.surfaceToggleGrid=()=>{
   if(S.grid.length){clearGrid();H.refresh();return}
   const mock=getMockup(),a=S.analysis;if(!mock||!a){H.toast('Prepara primero la superficie');return}
-  const addLine=(pts)=>{const path='M '+pts.map((p,i)=>(i?'L ':'')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ')+' ';const o=new fabric.Path(path,{fill:'',stroke:'#00eaff',strokeWidth:2,opacity:.65,selectable:false,evented:false,excludeFromExport:true});o.hakiKind='surface-grid';H.canvas.add(o);S.grid.push(o)};
+  const addLine=(pts)=>{const path='M '+pts.map((p,i)=>(i?'L ':'')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');const o=new fabric.Path(path,{fill:'',stroke:'#00eaff',strokeWidth:2,opacity:.65,selectable:false,evented:false,excludeFromExport:true});o.hakiKind='surface-grid';H.canvas.add(o);S.grid.push(o)};
   for(let x=.06;x<=.94;x+=.09){const pts=[];for(let y=.08;y<=.94;y+=.022){const [sx,sy]=surfaceMap(a,x,y,.58);pts.push(canvasFromImageNorm(mock,sx,sy))}addLine(pts)}
   for(let y=.10;y<=.92;y+=.085){const pts=[];for(let x=.03;x<=.97;x+=.022){const [sx,sy]=surfaceMap(a,x,y,.58);pts.push(canvasFromImageNorm(mock,sx,sy))}addLine(pts)}
   H.refresh();H.toast('Malla de superficie visible');
